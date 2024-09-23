@@ -7,8 +7,7 @@ import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
-// import path from 'path';
-// import { fileURLToPath } from 'url';
+import path from "path";
 
 //configure env
 dotenv.config();
@@ -16,11 +15,10 @@ dotenv.config();
 //databse config
 connectDB();
 
-//es module
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 //rest object
 const app = express();
+
+const __dirname = path.resolve();
 
 //middelwares
 app.use(cors());
@@ -34,10 +32,11 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 
-//rest api
-// app.use("*", function(req, res) {
-//   res.sendFile(path.join(__dirname, './client/build/index.html'));
-// });
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 //PORT
 const PORT = process.env.PORT || 5500;
