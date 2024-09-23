@@ -36,3 +36,12 @@ export const isAdmin = async (req, res, next) => {
     });
   }
 };
+
+// middleware/adminCheck.js
+export const adminCheck = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next(); // User is admin, proceed
+  } else {
+    res.status(403).json({ success: false, message: 'Access denied. Admins only.' });
+  }
+};

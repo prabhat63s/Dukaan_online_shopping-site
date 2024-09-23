@@ -1,12 +1,12 @@
-import Layout from "../../components/layout/Layout";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useAuth } from "../../context/auth";
 import { Link } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils/helper";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import AuthLayout from "./AuthLayout";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -51,7 +51,13 @@ export default function SignIn() {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+        // Redirect based on user role or location state
+        const role = res.data.user.role;
+        if (role === 1) {
+          navigate("/dashboard/admin");
+        } else {
+          navigate(location.state?.from || "/");
+        }
       } else {
         toast.error(res.data.message);
       }
@@ -62,90 +68,106 @@ export default function SignIn() {
   };
 
   return (
-    <Layout>
-      <div className="w-full h-[600px] flex flex-col lg:flex-row gap-8 px-6 items-center justify-center">
-        <div className="lg:w-[40%] w-full">
-          <img
-            src="https://www.sapphiresolutions.net/images/farmer_app/images/farmer_app_about.svg"
-            alt=""
-          />
+    <>
+      <AuthLayout>
+        <div className="w-full pb-10 mb-10 border-b">
+          <h1 className="text-2xl font-semibold mb-2">Login</h1>
+          <p>Get access to your Orders, Wishlist, and Recommendations</p>
         </div>
-
-        <div className="w-full flex items-center flex-col lg:w-[40%]">
-          <h2 className=" text-center text-2xl font-semibold leading-9 tracking-tight text-gray-900">
-            Welcome to agrocart.
-          </h2>
-          <form
-            className="space-y-4 w-full lg:w-[70%] mt-5"
-            onSubmit={handleSubmit}
-          >
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="name@gmail.com"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-              />
-            </div>
-
-            <div className="text-sm text-end">
+        <div className="w-full lg:min-h-[50vh] flex flex-col lg:flex-row gap-10 lg:divide-x">
+          <div className="w-full lg:w-[50%] h-full flex items-center justify-center">
+            <form
+              className="flex flex-col space-y-6 w-full"
+              onSubmit={handleSubmit}
+            >
+              <h1 className="text-xl font-semibold mb-2">Welcome Back!</h1>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Your email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="border text-sm rounded-lg block w-full p-3"
+                  placeholder="name@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {error && (
+                  <div className="text-red-600 pt-2 text-xs">{error}</div>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Your password
+                </label>
+                <div className="flex items-center text-gray-900 p-3 border rounded-lg w-full">
+                  <input
+                    type={isShowPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    className="w-full outline-none bg-transparent"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  {isShowPassword ? (
+                    <IoEyeOutline
+                      size={18}
+                      onClick={toggleShowPassword}
+                      className="text-neutral-600 cursor-pointer"
+                    />
+                  ) : (
+                    <IoEyeOffOutline
+                      size={18}
+                      onClick={toggleShowPassword}
+                      className="text-neutral-600 cursor-pointer"
+                    />
+                  )}
+                </div>
+                {error && (
+                  <div className="text-red-600 pt-2 text-xs">{error}</div>
+                )}
+              </div>
               <Link
                 to="/forgot-password"
-                className="text-xs text-emerald-500 hover:text-emerald-400"
+                className="text-red-600 text-sm hover:text-black"
               >
                 Forgot password?
               </Link>
-            </div>
-            <div className="flex items-center border text-gray-900 text-sm rounded-md py-3 px-2 shadow-sm placeholder:text-gray-400 ">
-              <input
-                name="password"
-                type={isShowPassword ? "text" : "password"}
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full outline-none bg-transparent"
-              />
-              {isShowPassword ? (
-                <IoEyeOutline
-                  size={18}
-                  onClick={() => toggleShowPassword()}
-                  className="text-neutral-600"
-                />
-              ) : (
-                <IoEyeOffOutline
-                  size={18}
-                  onClick={() => toggleShowPassword()}
-                  className="text-neutral-600"
-                />
-              )}
-            </div>
-            {error && <p className="text-red-500 text-xs">{error}</p>}
-            <div className="pt-4">
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-emerald-500 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-emerald-400 "
+                className="w-fit text-white bg-red-600 hover:bg-red-500 gap-2 font-medium rounded-lg px-5 py-2.5 text-center shadow-lg"
               >
-                Login
+                LOGIN
               </button>
-            </div>
-          </form>
+            </form>
+          </div>
 
-          <p className="text-center mt-4 text-xs text-gray-500">
-            Don&apos;t have an account?{" "}
-            <Link
-              to="/sign-up"
-              className="font-semibold leading-6 text-emerald-500 hover:text-emerald-400"
-            >
-              Create account
-            </Link>
-          </p>
+          <div className="w-full lg:w-[50%] lg:pl-10 h-full flex items-center justify-center">
+            <div className="space-y-6 w-full flex flex-col gap-2">
+              <h1 className="text-xl font-semibold">New Customer</h1>
+              <p>
+                Be part of our growing family of new customers! Join us today
+                and unlock a world of exclusive benefits, offers, and
+                personalized experiences.
+              </p>
+              <Link to="/sign-up">
+                <button className="w-fit text-white bg-red-600 hover:bg-red-500 gap-2 font-medium rounded-lg px-5 py-2.5 text-center shadow-lg">
+                  SIGNUP
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </Layout>
+      </AuthLayout>
+    </>
   );
 }

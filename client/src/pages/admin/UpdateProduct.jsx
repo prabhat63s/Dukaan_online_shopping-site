@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/layout/Layout";
-import AdminMenu from "../../components/layout/AdminMenu";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import AdminLayout from "./AdminLayout";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export default function UpdateProduct() {
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ export default function UpdateProduct() {
         toast.error(data?.message);
       } else {
         toast.success("Product Updated Successfully");
-        navigate("/dashboard/admin/products");
+        navigate("/dashboard/products");
       }
     } catch (error) {
       console.log(error);
@@ -88,11 +89,9 @@ export default function UpdateProduct() {
   //delete a product
   const handleDelete = async () => {
     try {
-        await axios.delete(
-        `/api/v1/product/delete-product/${id}`
-      );
+      await axios.delete(`/api/v1/product/delete-product/${id}`);
       toast.success("Product Deleted Succfully");
-      navigate("/dashboard/admin/products");
+      navigate("/dashboard/products");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -100,157 +99,170 @@ export default function UpdateProduct() {
   };
 
   return (
-    <Layout>
-      <div className="lg:w-[85%] p-4 lg:p-0  mx-auto flex flex-col lg:flex-row gap-4 mb-6">
-        <div className="lg:w-1/4 w-full ">
-          <div className="flex flex-col bg-white lg:border rounded-md gap-4 lg:p-4 lg:px-6">
-            <AdminMenu />
-          </div>
-        </div>
-        <div className="w-full lg:w-3/4">
-          <div className="  mt-4 lg:mt-0 lg:border lg:p-4 rounded-md">
-            <h1 className="font-semibold text-xl border-b pb-2">
-              Update Product
-            </h1>
-            <div className="flex flex-col space-y-2">
-              {/* add product form */}
-              <form className="space-y-4 py-4 ">
-                {/* select categories  */}
-                <select
-                  id="select"
-                  name="category"
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option>--select product--</option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-                {/* add photo  */}
-                <div className="flex flex-col lg:flex-row justify-between w-full gap-4">
-                  <div className="text-center flex flex-col items-center justify-center rounded-md shadow-sm border border-dashed w-full lg:w-[50%]">
-                    {photo ? (
-                      <>
-                        {photo && (
-                          <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
-                            <img
-                              src={URL.createObjectURL(photo)}
-                              alt="product_photo"
-                              className="w-36 rounded-md shadow-md"
-                            />
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <MdOutlinePhotoSizeSelectActual className="mx-auto h-12 w-12 text-gray-light" />
-                        <div className="mt-2 flex text-[12px] text-gray">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative cursor-pointer rounded-md bg-white font-semibold text-gray"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              type="file"
-                              multiple
-                              className="sr-only"
-                              accept="image/*"
-                              onChange={(e) => setPhoto(e.target.files[0])}
-                            />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
-                        </div>
-                        <p className="text-xs leading-5 text-gray-600">
-                          PNG, JPG, GIF up to 1MB
-                        </p>
-                      </>
-                    )}
-                  </div>
-                  <div className="text-center flex items-center justify-center rounded-md shadow-sm border border-dashed w-full lg:w-[50%]">
-                    <img
-                      src={`/api/v1/product/product-photo/${id}`}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                </div>
+    <AdminLayout>
+      <div className="w-fullmt-4 lg:mt-0">
+        <h1 className="text-2xl font-semibold mb-6">Update Product</h1>
+        <div className="flex flex-col space-y-2">
+          {/* add product form */}
+          <form className="space-y-4 py-4 ">
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* select categories  */}
+              <select
+                id="select"
+                name="category"
+                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option>--select product--</option>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+              {/* product name */}
 
-                {/* other details */}
-                <input
-                  name="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter product name"
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-                />
-                <textarea
-                  name="name"
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter product Description"
-                  rows={8}
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 resize-none"
-                />
-                <input
-                  name="name"
-                  type="text"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Enter product price"
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-                />
-                <input
-                  name="name"
-                  type="text"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  placeholder="Enter product quantity"
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-                />
-                <select
-                  id="select"
-                  name="shipping"
-                  className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
-                  value={shipping}
-                  onChange={(e) => setShipping(e.target.value)}
-                >
-                  <option>--Shipping--</option>
-                  <option value={0}>No</option>
-                  <option value={1}>Yes</option>
-                </select>
-                <div className="flex gap-2">
-                  <button
-                    type="submit"
-                    className="flex w-fit justify-center rounded-md bg-emerald-500 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-emerald-400 "
-                    onClick={handleUpdate}
-                  >
-                    Update product
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex w-fit justify-center rounded-md bg-red-500 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-red-400 "
-                    onClick={() => {
-                      window.confirm("Are you sure to delete?") &&
-                        handleDelete();
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </form>
-              {/* add product form end*/}
+              <input
+                name="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter product name"
+                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
+              />
             </div>
-          </div>
+            {/* add photo  */}
+            <div className="flex flex-col lg:flex-row justify-between w-full gap-4">
+              <div className="text-center flex flex-col items-center justify-center rounded-md shadow-sm border border-dashed w-full lg:w-[50%] bg-white">
+                {photo ? (
+                  <>
+                    {photo && (
+                      <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
+                        <img
+                          src={URL.createObjectURL(photo)}
+                          alt="product_photo"
+                          className="w-36 rounded-md shadow-md"
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <MdOutlinePhotoSizeSelectActual className="mx-auto h-12 w-12 text-gray-light" />
+                    <div className="mt-2 flex text-[12px] text-gray">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md bg-white font-semibold text-gray"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="file-upload"
+                          type="file"
+                          multiple
+                          className="sr-only"
+                          accept="image/*"
+                          onChange={(e) => setPhoto(e.target.files[0])}
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
+                    </div>
+                    <p className="text-xs leading-5 text-gray-600">
+                      PNG, JPG, GIF up to 1MB
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="text-center flex items-center justify-center rounded-md shadow-sm border border-dashed w-full lg:w-[50%] bg-white">
+                <img
+                  src={`/api/v1/product/product-photo/${id}`}
+                  alt="product_photo"
+                  className="h-40"
+                />
+              </div>
+            </div>
+
+            {/* Description Editor and Preview */}
+            <div className="flex flex-col lg:flex-row gap-6 mt-6 h-60">
+              {/* Rich Text Editor */}
+              <div className="w-full lg:w-1/2 bg-white">
+                <ReactQuill
+                  theme="snow"
+                  value={description}
+                  onChange={setDescription}
+                  placeholder="Enter product description"
+                  className="h-48"
+                />
+              </div>
+              {/* Description Preview */}
+              <div className="w-full lg:w-1/2 border rounded-xl bg-white p-4 overflow-auto">
+                <h3 className="text-lg font-semibold mb-2">Preview</h3>
+                {description ? (
+                  <div
+                    className=" max-w-none"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
+                ) : (
+                  <p className="text-gray-400">
+                    Description preview will appear here...
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* price */}
+              <input
+                name="price"
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Enter product price"
+                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
+              />
+              {/* quantity */}
+              <input
+                name="quantity"
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                placeholder="Enter product quantity"
+                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
+              />
+              {/* shipping */}
+              <select
+                id="select"
+                name="shipping"
+                className="block w-full rounded-md border py-3 px-2 text-[14px] text-gray-900 shadow-sm placeholder:text-gray-400 "
+                value={shipping}
+                onChange={(e) => setShipping(e.target.value)}
+              >
+                <option>--Shipping--</option>
+                <option value={0}>No</option>
+                <option value={1}>Yes</option>
+              </select>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex w-full lg:w-fit justify-center rounded-md bg-red-600 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-red-500 "
+                onClick={handleUpdate}
+              >
+                Update product
+              </button>
+              <button
+                type="submit"
+                className="flex w-full lg:w-fit justify-center rounded-md border border-red-600 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-black shadow-sm hover:bg-red-600 hover:text-white"
+                onClick={() => {
+                  window.confirm("Are you sure to delete?") && handleDelete();
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </form>
+          {/* add product form end*/}
         </div>
       </div>
-    </Layout>
+    </AdminLayout>
   );
 }

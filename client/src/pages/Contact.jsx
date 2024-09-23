@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import Layout from "../components/layout/Layout";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { BiSolidSend } from "react-icons/bi";
 import emailjs from "@emailjs/browser";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import {
   FaFacebook,
   FaInstagram,
@@ -85,76 +85,77 @@ const Contact = () => {
 
   return (
     <Layout>
-      <div className="w-full min-h-screen">
-        <div className="mx-auto w-[85%] my-32 text-[14px]">
-          <h1 className="text-black text-2xl mb-4 font-bold w-fit border-b-4">
-            Get in <span className="text-emerald-500">touch</span>
-          </h1>
-
-          <div className=" w-full flex justify-between flex-col gap-6 items-center text-black md:flex-row">
-            <div className=" w-full flex justify-center items-center lg:w-[40%] ">
-              <div className=" w-[100%]">
-                {details.map(({ id, icon, title }) => (
-                  <div
-                    id={id}
-                    className="w-full h-14 rounded-lg flex shadow-sm items-center bg-gray-50 my-4"
-                  >
-                    <span className="text-emerald-500 mx-3">{icon}</span>
-                    {title}
-                  </div>
-                ))}
-                <div className="w-full h-14 rounded-lg flex items-center shadow-sm bg-gray-50 text-emerald-500 text-xl my-4">
-                  {social.map(({ id, to, title }) => (
-                    <NavLink id={id} to={to} className="mx-5">
-                      {title}
-                    </NavLink>
-                  ))}
+      <div className="lg:max-w-7xl mx-auto px-4">
+        <div className="py-10 border-b">
+          <h1 className="text-2xl font-semibold mb-2">Get in touch</h1>
+          <span className="">
+            <Link to="/">Home / </Link>
+            <Link to="/all-product">All Products</Link>
+          </span>
+        </div>
+        <div className=" w-full flex justify-between flex-col mt-10 gap-6 items-center text-black md:flex-row">
+          <div className=" w-full flex justify-center items-center lg:w-[40%] ">
+            <div className=" w-[100%]">
+              {details.map(({ id, icon, title }) => (
+                <div
+                  id={id}
+                  className="w-full h-14 rounded-lg flex shadow-sm items-center bg-gray-50 my-8"
+                >
+                  <span className="text-red-600 mx-3">{icon}</span>
+                  {title}
                 </div>
+              ))}
+              <div className="w-full h-14 rounded-lg flex items-center shadow-sm bg-gray-50 text-red-600 text-xl my-4">
+                {social.map(({ id, to, title }) => (
+                  <NavLink id={id} to={to} className="mx-5">
+                    {title}
+                  </NavLink>
+                ))}
               </div>
             </div>
-            <div className=" w-full md:w-[60%]">
-              <form
-                ref={form}
-                onSubmit={sendEmail}
-                className="mx-auto max-w-2xl flex-col flex gap-4 "
-              >
-                <div className="grid grid-cols-1 text-black gap-x-8 gap-y-4 sm:grid-cols-2">
-                  <input
-                    type="text"
-                    name="user_name"
-                    placeholder="Enter your name"
-                    className="block w-full rounded-md shadow-sm bg-gray-50 border-0 px-3.5 py-3 placeholder:text-gray-800"
-                  />
-                  <input
-                    type="email"
-                    name="user_email"
-                    placeholder="Enter your email"
-                    className="block w-full rounded-md  px-3.5 py-3 shadow-sm bg-gray-50 placeholder:text-gray-800"
-                  />
-                </div>
+          </div>
+          <div className="w-full md:w-[60%]">
+            <form
+              ref={form}
+              onSubmit={sendEmail}
+              className="mx-auto max-w-2xl flex-col flex gap-6"
+            >
+              <div className="grid grid-cols-1 text-black gap-x-8 gap-y-4 sm:grid-cols-2">
+                <input
+                  type="text"
+                  name="user_name"
+                  placeholder="Enter your name"
+                  className="block w-full rounded-md shadow-sm bg-gray-50 border-0 px-3.5 py-3 placeholder:text-gray-800"
+                />
+                <input
+                  type="email"
+                  name="user_email"
+                  placeholder="Enter your email"
+                  className="block w-full rounded-md  px-3.5 py-3 shadow-sm bg-gray-50 placeholder:text-gray-800"
+                />
+              </div>
 
-                <div className="sm:col-span-2">
-                  <textarea
-                    name="message"
-                    rows={8}
-                    placeholder="Enter your message"
-                    className="block w-full rounded-md border-0 px-3.5 py-4 shadow-sm bg-gray-50 resize-none placeholder:text-gray-800"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    value="Send"
-                    className="flex items-center rounded-md bg-emerald-500 px-3.5 py-2.5 text-sm shadow-sm  font-semibold text-white hover:bg-emerald-400"
-                  >
-                    Send message
-                    <span className="ml-3">
-                      <BiSolidSend />
-                    </span>
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div className="sm:col-span-2">
+                <textarea
+                  name="message"
+                  rows={8}
+                  placeholder="Enter your message"
+                  className="block w-full rounded-md border-0 px-3.5 py-4 shadow-sm bg-gray-50 resize-none placeholder:text-gray-800"
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  value="Send"
+                  className="flex w-full lg:w-fit items-center rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-red-500"
+                >
+                  Send message
+                  <span className="ml-3">
+                    <BiSolidSend />
+                  </span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

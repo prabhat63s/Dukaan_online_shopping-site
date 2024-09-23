@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
@@ -26,40 +27,40 @@ const CategoryProduct = () => {
 
   return (
     <Layout>
-      <div className=" w-[100%] min-h-screen pb-4">
-        <div className="lg:w-[85%] p-4 lg:p-0 mx-auto flex flex-col  text-[14px] items-center">
-        <h4 className="text-center">Category - {category?.name}</h4>
-        <h6 className="text-center">{products?.length} result found </h6>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 w-[100%] gap-4 py-4">
-          {products?.map((p) => (
-              <Link
-                className="border rounded-md cursor-pointer"
-                key={p._id}
-                to={`/product/${p.slug}`}
-              >
-                <div className="h-[300px] bg-gray-200">
-                  <img
-                    src={`/api/v1/product/product-photo/${p._id}`}
-                    alt=""
-                    className="w-full h-full object-cover object-center rounded-t-md"
-                  />
-                </div>
-
-                {/* product details */}
-                <div className="w-[100%] p-2 flex flex-col bg-gray-50 justify-center border-t rounded-b-md">
-                  <p className="truncate text-[12px] font-semibold">{p.name}</p>
-                  <p className="text-[10px] lg:text-[12px] text-gray truncate w-full">
-                    {p.description}
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <h2 className="text-[12px] lg:text-[14px] text-emerald-500">
-                      ₹{p.price}
-                    </h2>
+      <div className="lg:max-w-7xl mx-auto px-4">
+        <div className="py-10 border-b">
+          <h1 className="text-2xl font-semibold mb-2">
+            Category {category?.name}
+          </h1>
+          <span className="">
+            <Link to="/">Home / </Link>
+            <Link to="/all-product">All Products</Link>
+          </span>
+        </div>
+        <div className="w-full p-4 lg:p-0 flex flex-col">
+          <h2 className="pt-6 text-2xl font-semibold ">
+            {products?.length} result found
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-[100%] gap-4 py-4">
+            {products &&
+              products.length > 0 &&
+              products.map((product) => (
+                <Link key={product._id} to={`/product/${product.slug}`}>
+                  <div className="flex flex-col">
+                    <img
+                      src={`/api/v1/product/product-photo/${product._id}`}
+                      alt={product.name}
+                      className="w-full h-72 object-contain rounded-2xl bg-gray-50"
+                    />
+                    <div className="py-2 flex flex-col">
+                      <p className="truncate mb-1">{product.name}</p>
+                      <p className="text-xl font-semibold mb-0">
+                        ₹{product.price}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
         </div>
       </div>

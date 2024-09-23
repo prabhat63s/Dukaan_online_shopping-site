@@ -17,6 +17,7 @@ var gateway = new braintree.BraintreeGateway({
   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
+// create product
 export const createProductController = async (req, res) => {
   try {
     const { name, description, price, category, quantity, shipping } =
@@ -61,7 +62,31 @@ export const createProductController = async (req, res) => {
   }
 };
 
-//get all products
+// new arrival
+export const getNewArrivalsController = async (req, res) => {
+  try {
+    const products = await productModel
+      .find({})
+      .limit(4)
+      .populate("category")
+      .select("-photo")
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      message: "New arrivals fetched successfully",
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching new arrivals",
+      error,
+    });
+  }
+};
+
+// get all products
 export const getProductController = async (req, res) => {
   try {
     const products = await productModel
@@ -85,6 +110,7 @@ export const getProductController = async (req, res) => {
     });
   }
 };
+
 // get single product
 export const getSingleProductController = async (req, res) => {
   try {
@@ -143,7 +169,7 @@ export const deleteProductController = async (req, res) => {
   }
 };
 
-//upate producta
+//upate product
 export const updateProductController = async (req, res) => {
   try {
     const { name, description, price, category, quantity, shipping } =
@@ -376,7 +402,6 @@ export const brainTreePaymentController = async (req, res) => {
   }
 };
 
-
 // Cash on Delivery controller
 export const cashOnDeliveryController = async (req, res) => {
   try {
@@ -397,10 +422,11 @@ export const cashOnDeliveryController = async (req, res) => {
 
     await order.save();
 
-    res.status(201).json({ success: true, message: "Order placed successfully" });
+    res
+      .status(201)
+      .json({ success: true, message: "Order placed successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: error.message });
   }
 };
-

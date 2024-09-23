@@ -1,148 +1,278 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { RiCloseLine } from "react-icons/ri";
+import { HiBars2, HiOutlineShoppingBag } from "react-icons/hi2";
+import { FiLogOut, FiSearch, FiX } from "react-icons/fi";
+import logo from "../../assets/logo.png";
+import { GoPerson } from "react-icons/go";
 import { useAuth } from "../../context/auth";
-import SearchInput from "../form/SearchInput";
+import { toast } from "sonner";
+import { AiOutlineProduct } from "react-icons/ai";
 import { useCart } from "../../context/cart";
-import { BiSolidGrid, BiCart, BiSearch } from "react-icons/bi";
-import { GoHome, GoPerson } from "react-icons/go";
-import logo from "../../assets/web.png";
-// import { HiOutlineCube } from "react-icons/hi2";
+import SearchInput from "../form/SearchInput";
 
-export default function Header() {
-  const [auth] = useAuth();
+const Header = () => {
+  const [navOpen, setNavOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [auth, setAuth] = useAuth();
   const [cart] = useCart();
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const toggleNav = () => {
+    setNavOpen(!navOpen);
+  };
+
+  const toggleMobileSearch = () => {
+    setMobileSearchOpen(!mobileSearchOpen);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    try {
+      // Clear auth state and local storage
+      setAuth({
+        ...auth,
+        user: null,
+        token: "",
+      });
+      localStorage.removeItem("auth");
+
+      toast("Logout successfully");
+
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Failed to logout. Please try again.");
+    }
+  };
 
   return (
-    <>
-      {/* desktop view  */}
-      <header className="fixed top-0 w-full h-[70px] z-50 border-b bg-white flex items-center ">
-        <div className="lg:w-[85%] lg:mx-auto w-full flex justify-between items-center p-4 lg:p-0">
-          <div className="flex gap-4 w-[50%] justify-between">
-            <div className="flex w-full items-center gap-4 justify-between">
-              <NavLink to="/" className="flex items-center space-x-2">
-                <img className="h-10 w-10 " src={logo} alt="Your Company" />
-                <h1 className="font-semibold mt-2 text-2xl">
-                  agro<span className="text-emerald-500">cart</span>
-                </h1>
-              </NavLink>
-              <div className="hidden w-[50%] lg:flex items-center">
-                <SearchInput />
-              </div>
-            </div>
-          </div>
-          <div className="w-[50%] flex items-center justify-end gap-10 text-neutral-900">
-            <div className="hidden lg:flex items-center gap-8">
-              <NavLink
-                to="/about"
-                className="text-[14px] font-medium hover:text-emerald-400"
-              >
-                About
-              </NavLink>
-              <NavLink
-                to="/contact"
-                className="text-[14px] font-medium hover:text-emerald-400"
-              >
-                Contact
-              </NavLink>
-              {!auth.user ? (
-                <>
-                  <NavLink
-                    to="/sign-in"
-                    className="text-[14px] font-medium hover:text-emerald-400"
-                  >
-                    Sign In
-                  </NavLink>
-                  <span className="border-r-2 h-6"></span>
-                </>
-              ) : (
-                <>
-                  <NavLink
-                    to={`/dashboard/${
-                      auth?.user?.role === 1 ? "admin" : "user"
-                    }`}
-                    className="text-[14px] font-medium  hover:text-emerald-400"
-                  >
-                    {auth?.user?.name}
-                  </NavLink>
-                  <span className="border-r-2 h-6"></span>
-                </>
-              )}
-            </div>
+    <header className="w-full border-b">
+      <div className="lg:max-w-7xl h-[10vh] mx-auto px-4 flex justify-between items-center">
+        {/* Logo and Desktop Navigation */}
+        <NavLink to="/" className="flex items-center gap-1">
+          <img src={logo} alt="logo" className="h-8" />
+          <h1 className="text-2xl font-semibold mb-0">Dukaan</h1>
+        </NavLink>
 
-            {!auth.user ? (
-              <NavLink to="/cart" className="flex hover:text-emerald-400">
-                <BiCart size={24} />
-                <span className="ml-1 text-[10px] text-emerald-500 ">
-                  {" "}
+        {/* Search Box (Desktop) */}
+        <div className="hidden lg:flex">
+          <SearchInput />
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-6">
+          <NavLink
+            to="/all-product"
+            className="btn flex flex-col relative group hover:text-red-600"
+          >
+            <span className="flex items-center gap-1">
+              <AiOutlineProduct size={20} />
+              All Products
+            </span>
+            <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-red-600 transform origin-center transition-transform scale-x-0 group-hover:scale-x-100"></span>
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className="btn flex flex-col relative group hover:text-red-600"
+          >
+            <span className="flex items-center gap-1">
+              <HiOutlineShoppingBag size={18} />
+              Cart
+              <span className="-mt-5 text-[10px] px-2 py-1 rounded-full text-white bg-red-400">
+                {cart.length}
+              </span>
+            </span>
+            <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-red-600 transform origin-center transition-transform scale-x-0 group-hover:scale-x-100"></span>
+          </NavLink>
+
+          {auth?.user ? (
+            <>
+              <button
+                onClick={toggleDropdown}
+                className="btn flex flex-col relative group hover:text-red-600"
+              >
+                <span className="flex items-center gap-1">
+                  <GoPerson size={20} />
+                  Profile
+                </span>
+                <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-red-600 transform origin-center transition-transform scale-x-0 group-hover:scale-x-100"></span>
+              </button>
+              {isOpen && (
+                <div className="absolute right-36 top-12 bg-white z-50 mt-2 p-4 w-60 border rounded-lg shadow-xl">
+                  {auth.user.role === 1 ? (
+                    <NavLink
+                      to="/dashboard/admin"
+                      className="block px-4 py-2 rounded-md hover:bg-red-50"
+                    >
+                      Admin Dashboard
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to="/dashboard/user"
+                      className="block px-4 py-2 rounded-md hover:bg-red-50"
+                    >
+                      My Account
+                    </NavLink>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-start px-4 py-2 rounded-md hover:bg-red-50"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <NavLink
+              to="/sign-in"
+              className="btn flex flex-col relative group hover:text-red-600"
+            >
+              <span className="flex items-center gap-1">
+                <GoPerson size={20} />
+                Login
+              </span>
+              <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-red-600 transform origin-center transition-transform scale-x-0 group-hover:scale-x-100"></span>
+            </NavLink>
+          )}
+        </div>
+
+        {/* Mobile Search Icon and Nav Toggle */}
+        <div className="flex items-center gap-4 lg:hidden">
+          {/* Mobile Search Icon */}
+          {!mobileSearchOpen ? (
+            <FiSearch
+              className="cursor-pointer text-red-600"
+              size={24}
+              onClick={toggleMobileSearch}
+            />
+          ) : (
+            ""
+          )}
+
+          {/* Mobile Navigation Toggle */}
+          {!navOpen ? (
+            <HiBars2
+              className="cursor-pointer text-red-600 "
+              size={30}
+              onClick={toggleNav}
+            />
+          ) : (
+            <RiCloseLine
+              className="cursor-pointer text-red-600"
+              size={30}
+              onClick={toggleNav}
+            />
+          )}
+        </div>
+
+        {/* Mobile Search Box */}
+        {mobileSearchOpen && (
+          <div className="fixed z-50 top-0 left-0 w-full bg-white p-4 flex items-center">
+            <SearchInput />
+            <button
+              type="button"
+              className="absolute right-8 top-1/2 transform -translate-y-1/2 text-gray-500"
+              onClick={toggleMobileSearch}
+            >
+              <FiX size={20} />
+            </button>
+          </div>
+        )}
+
+        {/* Mobile Navigation Menu */}
+        {navOpen && (
+          <div className="absolute z-50 top-20 right-0 w-[100%] bg-white text-black border-b p-5">
+            <div className="flex flex-col gap-5">
+              <NavLink
+                to="/all-product"
+                onClick={toggleNav}
+                className={({ isActive }) =>
+                  `p-4 flex items-center gap-4 transition-colors duration-200 ${
+                    isActive
+                      ? "bg-red-600 text-white rounded-lg"
+                      : "bg-white text-black hover:bg-red-600 hover:text-white rounded-lg "
+                  }`
+                }
+              >
+                <AiOutlineProduct size={26} />
+                <span>All Products</span>
+              </NavLink>
+
+              <NavLink
+                to="/cart"
+                onClick={toggleNav}
+                className={({ isActive }) =>
+                  `p-4 flex items-center gap-4 transition-colors duration-200 ${
+                    isActive
+                      ? "bg-red-600 text-white rounded-lg"
+                      : "bg-white text-black hover:bg-red-600 hover:text-white rounded-lg "
+                  }`
+                }
+              >
+                <HiOutlineShoppingBag size={24} />
+                <span>Cart</span>
+                <span className="-mt-5 text-[10px] px-2 py-1 rounded-full text-white bg-red-400 ">
                   {cart.length}
                 </span>
               </NavLink>
-            ) : (
-              <>
-                <NavLink to="/cart" className="flex hover:text-emerald-400">
-                  <BiCart size={24} />
-                  <span className="ml-1 text-[10px] text-emerald-500">
-                    {" "}
-                    {cart.length}
-                  </span>
+
+              {auth?.user ? (
+                <>
+                  <NavLink
+                    to={
+                      auth.user.role === 1
+                        ? "/admin/dashboard"
+                        : "/user/profile"
+                    }
+                    onClick={toggleNav}
+                    className={({ isActive }) =>
+                      `p-4 flex items-center gap-4 transition-colors duration-200 ${
+                        isActive
+                          ? "bg-red-600 text-white rounded-lg"
+                          : "bg-white text-black hover:bg-red-600 hover:text-white rounded-lg "
+                      }`
+                    }
+                  >
+                    <GoPerson size={24} />
+                    {auth.user.role === 1 ? "Admin Dashboard" : "My Account"}
+                  </NavLink>
+                  <button
+                    onClick={handleLogout}
+                    className="flex p-4 gap-4 items-center hover:bg-red-600 hover:text-white rounded-lg"
+                  >
+                    <FiLogOut size={24} />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <NavLink
+                  to="/sign-in"
+                  onClick={toggleNav}
+                  className={({ isActive }) =>
+                    `p-4 flex items-center gap-4 transition-colors duration-200 ${
+                      isActive
+                        ? "bg-red-600 text-white rounded-lg"
+                        : "bg-white text-black hover:bg-red-600 hover:text-white rounded-lg "
+                    }`
+                  }
+                >
+                  <GoPerson size={24} />
+                  <span>Login</span>
                 </NavLink>
-              </>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      </header>
-
-      {/* mobile nav  */}
-      <div className="fixed z-50 bg-gray-100 bottom-0 gap-6 h-16 w-full lg:hidden flex items-center justify-evenly">
-        <NavLink
-          to="/"
-          className="flex flex-col items-center text-[10px] text-gray"
-        >
-          <GoHome size={20} />
-          <span>Home</span>
-        </NavLink>
-        <NavLink
-          className="flex flex-col items-center text-[10px] text-gray"
-          to='/search'
-        >
-          <BiSearch size={20} />
-          <span>Search</span>
-        </NavLink>
-        <NavLink
-          className="flex flex-col items-center text-[10px] text-gray"
-          to='/mobile-category'
-        >
-          <BiSolidGrid size={20} />
-          <span>Categories</span>
-        </NavLink>
-        {/* <NavLink
-           to={`/dashboard/${
-            auth?.user?.role === 0 ? "user" : ""
-          }/orders`}
-          className="flex flex-col items-center text-[10px] text-gray"
-        >
-          <HiOutlineCube size={20} />
-          <span>My Orders</span>
-        </NavLink> */}
-
-        {!auth.user ? (
-          <NavLink
-            to="/sign-in"
-            className="flex flex-col items-center text-[10px] text-gray"
-          >
-            <GoPerson size={20} />
-            <span>Log In</span>
-          </NavLink>
-        ) : (
-          <NavLink
-            to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
-            className="flex flex-col items-center text-[10px] text-gray"
-          >
-            <GoPerson size={20} />
-            <span className="w-11 truncate text-clip">{auth?.user?.name}</span>
-          </NavLink>
         )}
       </div>
-    </>
+    </header>
   );
-}
+};
+
+export default Header;

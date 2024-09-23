@@ -1,146 +1,139 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/web.png";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaWhatsapp,
-  FaYoutube,
-} from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
-const company = [
-
-  {
-    to: "/about",
-    title: "About",
-  },
-  {
-    to: "/teamPage",
-    title: "Team",
-  },
-];
-
-const contact = [
-  {
-    to: "/",
-    title: "Help & Supports",
-  },
-  {
-    to: "/",
-    title: "Partners",
-  },
-  {
-    to: "/contact",
-    title: "Contact",
-  },
-];
-
-const legal = [
-  {
-    to: "/",
-    title: "Terms & Condition",
-  },
-  {
-    to: "/",
-    title: "Cookies Policy",
-  },
-  {
-    to: "/",
-    title: "Privacy Policy",
-  },
-];
-
-const socials = [
-  {
-    to: "https://www.instagram.com/_frontend.ui_/",
-    title: <FaInstagram />,
-    id: 1,
-  },
-  {
-    to: "https://www.youtube.com/_frontend.ui_/",
-    title: <FaYoutube />,
-    id: 2,
-  },
-  {
-    to: "https://www.linkedin.com/in/prabhat-singh-10a134255/",
-    title: <FaLinkedin />,
-    id: 3,
-  },
-  {
-    to: "/",
-    title: <FaFacebook />,
-    id: 4,
-  },
-  {
-    to: "/",
-    title: <FaWhatsapp />,
-    id: 5,
-  },
-];
-
-export default function Footer() {
-  const currentYear = new Date().getFullYear();
+const Footer = () => {
   return (
-    <footer className="z-50 py-10 flex justify-center items-center flex-col bg-[#0d0d0d] shadow-lg text-white">
-      <div className="w-[90%] lg:w-[85%] mb-10 lg:mb-0">
-        <div className="gap-5 lg:gap-10 flex flex-col lg:flex-row">
-          <div className="lg:w-[500px] flex flex-col space-y-2">
-            <NavLink to="/" className="flex items-center space-x-2">
-              <img className="h-10 w-10" src={logo} alt="Your Company" />
-              <h1 className="font-semibold mt-2 text-2xl">
-                  agro<span className="text-emerald-500">cart</span>
-                </h1>
-            </NavLink>
-            <Link
-              to="/"
-              target="_/blank"
-              className="text-[10px] text-gray-light"
-            >
-              By Apni fasal apni suraksha.
-            </Link>
-            <p className="text-[12px]">
-              © {currentYear} agrocart | Inc. All rights reserved.
-            </p>
-            <div className="flex text-emerald-500">
-              {socials.map((s) => (
-                <Link
-                  to={s.to}
-                  key={s.id}
-                  target="_blank"
-                  className="mr-6 mt-2 text-[20px]"
-                >
-                  {s.title}
-                </Link>
-              ))}
-            </div>
+    <footer className=" text-black py-10 border-t">
+      <div className="lg:max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {/* Company Info */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+            <img src={logo} alt="logo" className="h-8" />
+            Dukaan
+          </h2>
+          <p className="text-gray-400">
+            Your one-stop shop for all your needs. From electronics to clothing,
+            we offer the best products at affordable prices.
+          </p>
+          <div className="mt-4 flex gap-4">
+            {/* Social Media Icons */}
+            <FaInstagram />
+            <FaFacebook />
+            <FaLinkedinIn />
+            <FaXTwitter />
           </div>
-          <div className="w-60 lg:border-l border-gray-light lg:pl-12">
-            <h1 className="text-[14px] text-green">About Us</h1>
-            {company.map(({ to, title }) => (
-              <NavLink to={to} key={title} className="my-4 flex text-[12px]">
-                {title}
+        </div>
+
+        {/* Shop */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Shop</h3>
+          <ul className="space-y-2">
+            <li className="text-sm">
+              <NavLink to="/products/electronics" className="hover:underline">
+                Electronics
               </NavLink>
-            ))}
-          </div>
-          <div className="w-60 lg:border-l border-gray-light lg:pl-12">
-            <h1 className="text-[14px] text-green">Contact Us</h1>
-            {contact.map(({ to, title }) => (
-              <NavLink to={to} key={title} className="my-4 flex text-[12px]">
-                {title}
+            </li>
+            <li className="text-sm">
+              <NavLink to="/products/fashion" className="hover:underline">
+                Fashion
               </NavLink>
-            ))}
-          </div>
-          <div className="w-60 lg:border-l border-gray-light lg:pl-12">
-            <h1 className="text-[14px] text-green">Legal Info.</h1>
-            {legal.map(({ to, title }) => (
-              <NavLink to={to} key={title} className="my-4 flex text-[12px]">
-                {title}
+            </li>
+            <li className="text-sm">
+              <NavLink to="/products/home-kitchen" className="hover:underline">
+                Home & Kitchen
               </NavLink>
-            ))}
-          </div>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/products/groceries" className="hover:underline">
+                Groceries
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
+        {/* Support */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Support</h3>
+          <ul className="space-y-2">
+            <li className="text-sm">
+              <NavLink to="/contact" className="hover:underline">
+                Contact Us
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/faq" className="hover:underline">
+                FAQs
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/shipping" className="hover:underline">
+                Shipping Info
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/returns" className="hover:underline">
+                Return Policy
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
+        {/* Company */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Company</h3>
+          <ul className="space-y-2">
+            <li className="text-sm">
+              <NavLink to="/about" className="hover:underline">
+                About Us
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/careers" className="hover:underline">
+                Careers
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/press" className="hover:underline">
+                Press & Media
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/affiliate" className="hover:underline">
+                Affiliate Program
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Footer */}
+      <div className="border-t mt-8 py-4">
+        <div className="lg:max-w-7xl mx-auto px-4 flex justify-between items-center">
+          <p className="text-gray-400 text-sm">
+            &copy; {new Date().getFullYear()} Dukaan. All rights reserved.
+          </p>
+          <ul className="flex space-x-4 text-gray-400 text-sm">
+            <li className="text-sm">
+              <NavLink to="/privacy" className="hover:underline">
+                Privacy Policy
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/terms" className="hover:underline">
+                Terms of Service
+              </NavLink>
+            </li>
+            <li className="text-sm">
+              <NavLink to="/cookies" className="hover:underline">
+                Cookie Policy
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

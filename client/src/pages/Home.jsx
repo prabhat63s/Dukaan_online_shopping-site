@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "../components/layout/Layout";
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
@@ -6,9 +7,78 @@ import { Prices } from "../components/Price";
 import axios from "axios";
 import { AiOutlineReload } from "react-icons/ai";
 import Categories from "./Categories";
-import { FaPaypal, FaThumbsUp } from "react-icons/fa";
-import { LiaShippingFastSolid } from "react-icons/lia";
-import Banner from "../components/Banner";
+import { FaStar } from "react-icons/fa";
+import NewArrivals from "../components/NewArrivals";
+
+const steps = [
+  {
+    step: "Step 1",
+    title: " Filter & Discover",
+    description:
+      "Smart filtering and suggestions make it easy to find exactly what you're looking for.",
+    icon: "🔍",
+  },
+  {
+    step: "Step 2",
+    title: " Add to Bag",
+    description:
+      "Easily select the correct items and add them to the cart for a smooth shopping experience.",
+    icon: "🛒",
+  },
+  {
+    step: "Step 3",
+    title: " Fast Shipping",
+    description:
+      "The carrier will confirm and ship quickly to you, ensuring your items arrive promptly.",
+    icon: "🚚",
+  },
+  {
+    step: "Step 4",
+    title: " Enjoy the Product",
+    description:
+      "Have fun and enjoy your 5-star quality products delivered to your doorstep.",
+    icon: "🎉",
+  },
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Jane Doe",
+    title: "Fashion Enthusiast",
+    feedback:
+      "I absolutely love the new collection! The quality is fantastic, and the styles are so trendy. Highly recommend!",
+    img: "https://randomuser.me/api/portraits/women/1.jpg",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "John Smith",
+    title: "Satisfied Customer",
+    feedback:
+      "Great experience shopping here. The customer service was excellent, and my order arrived quickly. Will shop again!",
+    img: "https://randomuser.me/api/portraits/men/1.jpg",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Emily Johnson",
+    title: "Fashion Blogger",
+    feedback:
+      "The outfits are stylish and comfortable. Perfect for my fashion blog! The attention to detail is impressive.",
+    img: "https://randomuser.me/api/portraits/women/2.jpg",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Michael Brown",
+    title: "New Customer",
+    feedback:
+      "I was pleasantly surprised by the variety and quality of the products. Excellent value for money.",
+    img: "https://randomuser.me/api/portraits/men/2.jpg",
+    rating: 4,
+  },
+];
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -111,166 +181,59 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="hidden  lg:flex w-full fixed bg-white top-[70px] z-50 border-b mb-6">
-        <Categories />
-      </div>
+      {/* Category Section */}
+      <Categories />
 
-      <div className="w-full lg:w-[85%] mx-auto flex lg:pt-12 flex-col">
-        {/* banner */}
-        <Banner title="अपनी फसल अपनी सुरक्षा" link="/" buttonText=" Go to " />
+      {/* New Arrivals */}
+      <NewArrivals />
 
-        {/* Products For You */}
-        <h1 className="text-2xl pl-4 lg:pl-0 font-semibold text-neutral-800">
-          Products For You
-        </h1>
-        <div className="w-full flex flex-col lg:flex-row mb-5">
-          {/* filters */}
-          <div className="lg:w-3/12 w-full border-b lg:border-b-0">
-            <div className="flex flex-col bg-white lg:border rounded-md gap-4 p-4 lg:px-6">
-              {/* category filter  */}
-              <div className="flex flex-col mt-2">
-                <h2 className="border-b pb-2 text-[14px] font-medium text-emerald-500">
-                  Category
-                </h2>
-                <div className="">
-                  {categories?.map((c) => (
-                    <Checkbox
-                      key={c._id}
-                      onChange={(e) => handleFilter(e.target.checked, c._id)}
-                      className="flex py-2"
-                    >
-                      {c.name}
-                    </Checkbox>
-                  ))}
-                </div>
+
+      {/* How It Works */}
+      <div className="my-16 border-t border-b">
+        <div className="lg:max-w-7xl mx-auto p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((s, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center text-center p-6 "
+              >
+                <div className="text-6xl mb-4">{s.icon}</div>
+                <h3 className="bg-red-100 mb-2 rounded-full px-2 py-1">
+                  {s.step}
+                </h3>
+                <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                <p className="text-sm text-gray-600">{s.description}</p>
               </div>
-              {/* price filter  */}
-              <div className="flex flex-col mt-2">
-                <h2 className="border-b pb-2 text-[14px] font-medium text-emerald-500">
-                  Price
-                </h2>
-                <div className="">
-                  <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                    {Prices?.map((p) => (
-                      <div key={p._id}>
-                        <Radio value={p.array} className="py-2">
-                          {p.name}
-                        </Radio>
-                      </div>
-                    ))}
-                  </Radio.Group>
-                </div>
-                <div className="flex justify-end border-t pt-5">
-                  <button
-                    className="flex w-fit justify-center rounded-md bg-emerald-500 py-2 px-4 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-emerald-400"
-                    onClick={() => window.location.reload()}
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* all products  */}
-          <div className="w-full lg:w-9/12">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-[100%] my-5 lg:mt-0 gap-4 px-4">
-              {products &&
-                products.length > 0 &&
-                products.map((product) => (
-                  <NavLink
-                    key={product._id}
-                    to={`/product/${product.slug}`}
-                    className="w-full flex flex-col rounded-md border hover:shadow-md"
-                  >
-                    {/* product image */}
-                    <div className="h-[100%] w-[100%] bg-gray-200">
-                      <img
-                        src={`/api/v1/product/product-photo/${product._id}`}
-                        alt=""
-                        className="h-full w-full object-cover object-center rounded-t-md"
-                      />
-                    </div>
-                    {/* product details */}
-                    <div className="w-[100%] p-2 flex flex-col justify-center border-t bg-gray-50 rounded-b-md">
-                      <p className="truncate text-[12px] font-semibold">
-                        {product.name}
-                      </p>
-                      <p className="text-[10px] lg:text-[12px] truncate w-full">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center space-x-2">
-                        <h2 className="text-[12px] lg:text-[14px] text-emerald-500">
-                          ₹{product.price}
-                        </h2>
-                      </div>
-                    </div>
-                  </NavLink>
-                ))}
-
-              {/* lode more  */}
-              <div className="w-full flex items-end justify-end">
-                {products && products.length < total && (
-                  <button
-                    className="flex w-fit items-center gap-2 justify-center rounded-md bg-emerald-500 py-3 lg:py-2 px-4 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-emerald-400"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setPage(page + 1);
-                    }}
-                  >
-                    {loading ? (
-                      "Loading ..."
-                    ) : (
-                      <>
-                        {" "}
-                        Loadmore <AiOutlineReload />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* services  */}
-        <div className="flex flex-col lg:flex-row justify-between border bg-gradient-to-tr from-emerald-100 via-emerald-50 to-emerald-100 rounded-md mx-4 mb-5 lg:mx-0">
-          <div className="w-full flex flex-col p-5 items-center lg:w-4/12">
-            <div className="text-emerald-950 pb-2">
-              {" "}
-              <FaThumbsUp size={30} />{" "}
+      {/* Testimonial */}
+      <div className="lg:max-w-7xl mx-auto my-16 px-4">
+        <h2 className="text-2xl font-semibold mb-6">What Our Customers Say.</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {testimonials.map((testimonial) => (
+            <div key={testimonial.id} className=" flex flex-col items-center">
+              <img
+                src={testimonial.img}
+                alt={testimonial.name}
+                className="w-24 h-24 rounded-full mb-4"
+              />
+              <div className="flex items-center mb-2">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <FaStar key={i} className="text-yellow-400" />
+                ))}
+              </div>
+              <p className="text-gray-600 text-center mb-4">
+                {testimonial.feedback}
+              </p>
+              <h3 className="text-lg font-medium text-gray-800">
+                {testimonial.name}
+              </h3>
+              <p className="text-gray-500">{testimonial.title}</p>
             </div>
-            <h1 className="text-lg text-neutral-700 font-semibold">
-              Best Quality
-            </h1>
-            <p className="text-center text-sm">
-              Assured Genuine Products from Trusted well-known Brands of India
-            </p>
-          </div>
-          <div className="w-full flex flex-col p-5 items-center lg:w-4/12">
-            <div className="text-emerald-950 pb-2">
-              {" "}
-              <FaPaypal size={30} />{" "}
-            </div>
-            <h1 className="text-lg text-neutral-700 font-semibold">
-              Online payment
-            </h1>
-            <p className="text-center text-sm">Ease to Pay for your product</p>
-          </div>
-          <div className="w-full flex flex-col p-5 items-center lg:w-4/12">
-            <div className="text-emerald-950 pb-2">
-              {" "}
-              <LiaShippingFastSolid size={30} />{" "}
-            </div>
-            <h1 className="text-lg text-neutral-700 font-semibold">
-              {" "}
-              Fast Delivery
-            </h1>
-            <p className="text-center text-sm">
-              Your Order is very prior to us, we deliver it faster as much we
-              can.
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </Layout>

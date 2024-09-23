@@ -8,8 +8,9 @@ import {
   getOrdersController,
   getAllOrdersController,
   orderStatusController,
+  getAllUsersController,
 } from "../controllers/authController.js";
-import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import { isAdmin, requireSignIn, adminCheck } from "../middlewares/authMiddleware.js";
 
 //router object
 const router = express.Router();
@@ -38,6 +39,9 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
 
 //update profile
 router.put("/profile", requireSignIn, updateProfileController);
+
+// Route to get all users
+router.get("/users", getAllUsersController);
 
 //orders
 router.get("/orders", requireSignIn, getOrdersController);

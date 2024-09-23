@@ -1,9 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Layout from "../components/layout/Layout";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useCart } from "../context/cart";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+
+const features = [
+  {
+    title: "Free Shipping",
+    description: "On orders over $50.00",
+    icon: "🚚",
+  },
+  {
+    title: "Very Easy to Return",
+    description: "Just phone number.",
+    icon: "📞",
+  },
+  {
+    title: "Nationwide Delivery",
+    description: "Fast delivery nationwide.",
+    icon: "🚀",
+  },
+  {
+    title: "Refunds Policy",
+    description: "60 days return for any reason.",
+    icon: "💵",
+  },
+];
 
 export default function ProductDetails() {
   const params = useParams();
@@ -16,6 +41,7 @@ export default function ProductDetails() {
   useEffect(() => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
+
   //getProduct
   const getProduct = async () => {
     try {
@@ -42,75 +68,102 @@ export default function ProductDetails() {
 
   return (
     <Layout>
-      <div className="lg:w-[85%] p-4 lg:p-0 mx-auto flex flex-col lg:flex-row gap-4 mb-6">
-        <div className="lg:w-[45%] w-full ">
-          <h3 className="text-[12px] text-gray-600">
-            {product?.category?.name} / {product.name}
-          </h3>
-          <div className="flex flex-col bg-white rounded-md gap-4 p-4 w-[400px] h-[400px]">
+      <div className="lg:max-w-7xl mx-auto px-4 py-10">
+        {/* Breadcrums */}
+        <h3 className="text-sm text-gray-600 mb-5">
+          {product?.category?.name} / {product.name}
+        </h3>
+        {/* Product detail */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Product Images */}
+          <div className="bg-gray-50 w-full h-[500px] flex items-center justify-center rounded-lg">
             <img
               src={`/api/v1/product/product-photo/${product._id}`}
-              className="h-full w-full object-cover object-center border rounded-md"
               alt={product.name}
+              className="w-full h-full object-contain rounded-2xl"
             />
           </div>
-        </div>
 
-        <div className="w-full lg:w-[55%]">
-          <div className=" rounded-md">
-            <h1 className="text-[16px] font-semibold">{product.name}</h1>
-            <h2 className="text-xl text-emerald-500 font-semibold">
+          {/* Product Info */}
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
+            <p className="text-lg font-medium text-gray-500 mb-4">
               {product?.price?.toLocaleString("en-US", {
                 style: "currency",
                 currency: "INR",
               })}
-            </h2>
-            <p className="whitespace-pre-line leading-6 text-sm">
-              {product.description}
             </p>
-            <button
-              className="flex w-full lg:w-fit  justify-center rounded-md bg-emerald-500 py-3 lg:py-2 px-2 text-[14px] font-semibold leading-6 text-white shadow-sm hover:bg-emerald-400"
-              onClick={() => {
-                setCart([...cart, product]);
-                localStorage.setItem(
-                  "cart",
-                  JSON.stringify([...cart, product])
-                );
-                toast.success("Item Added to cart");
-              }}
-            >
-              Add to Cart
-            </button>
+            <div
+              className=" max-w-none"
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
+
+            <div className=" rounded-md">
+              <button
+                className="px-6 py-3 w-full lg:w-fit justify-center flex items-center gap-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition"
+                onClick={() => {
+                  setCart([...cart, product]);
+                  localStorage.setItem(
+                    "cart",
+                    JSON.stringify([...cart, product])
+                  );
+                  toast.success("Item Added to cart");
+                }}
+              >
+                <HiOutlineShoppingBag size={20} />
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Shipping Return Info */}
+      <div className="w-full border-t">
+        <div className="lg:max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-16">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center text-center p-4 rounded-2xl bg-gray-50"
+              >
+                <div className="text-4xl mb-3">{feature.icon}</div>
+                <h3 className="text-lg font-semibold mb-1">{feature.title}</h3>
+                <p className="text-gray-800">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Related Product */}
       <div className="w-full border-t py-4">
-        <h2 className="text-xl text-center">Similar Products</h2>
-        <div className="lg:w-[85%] p-4 lg:p-0 mx-auto flex flex-col lg:flex-row gap-4 mb-6">
+        <div className="lg:max-w-7xl mx-auto my-8 px-4">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold ">Similar Products</h2>
+            <Link to="/all-product" className="text-red-600 hover:underline">
+              More
+            </Link>
+          </div>
           {relatedProducts.length < 1 && (
             <p className="text-center">No Similar Products found</p>
           )}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 w-[100%] mb-5 gap-4 lg:gap-6 py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {relatedProducts?.map((p) => (
-              <div
-                className="flex flex-col border rounded-md"
-                key={p._id}
-                onClick={() => navigate(`/product/${p.slug}`)}
-              >
-                <img
-                  src={`/api/v1/product/product-photo/${p._id}`}
-                  className="h-full w-full object-cover object-center rounded-t-md"
-                  alt={p.name}
-                />
-                <div className="p-2 border-t bg-gray-50">
-                  <h2 className=" text-[14px]">{p.name}</h2>
-                  <h2 className="text-emerald-500">
-                    {p.price.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "INR",
-                    })}
-                  </h2>
+              <div key={p._id} onClick={() => navigate(`/product/${p.slug}`)}>
+                <div className="flex flex-col">
+                  <img
+                    src={`/api/v1/product/product-photo/${p._id}`}
+                    alt={p.name}
+                    className="w-full h-72 object-cover rounded-2xl bg-red-50"
+                  />
+                  <div className="pt-2 flex flex-col">
+                    <p className="truncate mb-1">{product.name}</p>
+
+                    <p className="text-xl font-semibold mb-0">
+                      ₹{product.price}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}

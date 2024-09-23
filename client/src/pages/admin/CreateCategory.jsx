@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/layout/Layout";
-import AdminMenu from "../../components/layout/AdminMenu";
 import CategoryForm from "../../components/form/CategoryForm";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Modal } from "antd";
 import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
+import AdminLayout from "./AdminLayout";
 
 export default function CreateCategory() {
   const [categories, setCategories] = useState([]);
@@ -23,12 +22,13 @@ export default function CreateCategory() {
       if (data?.success) {
         toast.success(`${name} is created`);
         getAllCategory();
+        setName("");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
-      // toast.error("somthing went wrong in input form");
+      toast.error("somthing went wrong in input form");
     }
   };
 
@@ -89,15 +89,12 @@ export default function CreateCategory() {
   };
 
   return (
-    <Layout>
-      <div className="lg:w-[85%] p-4 lg:p-0  mx-auto flex flex-col lg:flex-row gap-4 mb-6">
-        <div className="lg:w-1/4 w-full ">
-          <div className="flex flex-col bg-white lg:border rounded-md gap-4 lg:p-4 lg:px-6">
-            <AdminMenu />
-          </div>
-        </div>
-        <div className="w-full flex flex-col gap-5 lg:w-3/4">
-          <div className=" border p-4 rounded-md">
+    <AdminLayout>
+      <div className="">
+        <h1 className="text-2xl font-semibold mb-6">Category</h1>
+
+        <div className="w-full flex flex-col gap-5">
+          <div className="rounded-md">
             <h1 className="font-semibold text-xl border-b pb-2">
               Add Category
             </h1>
@@ -114,7 +111,7 @@ export default function CreateCategory() {
           </div>
           <div className="border rounded-md">
             <table className="w-[100%] mb-2 text-[14px]">
-              <thead className=" font-medium rounded-md bg-gray-50 border-b">
+              <thead className=" font-medium rounded-md bg-white border-b">
                 <tr className="flex justify-between">
                   <th className="px-6 py-4">Category name</th>
                   <th className="px-6 py-4">Actions</th>
@@ -124,7 +121,7 @@ export default function CreateCategory() {
                 {categories.map((cat) => (
                   <tr
                     key={cat.name}
-                    className="flex justify-between border-b hover:bg-gray-50"
+                    className="flex justify-between border-b hover:bg-white"
                   >
                     <td className="px-6 py-4"> {cat.name} </td>
                     <td className="flex space-x-2 px-4 py-4">
@@ -140,7 +137,7 @@ export default function CreateCategory() {
                       </button>
                       <button
                         title="Edit"
-                        className="hover:text-emerald-400"
+                        className="hover:text-red-600"
                         onClick={() => {
                           setVisible(true);
                           setUpdatedName(cat.name);
@@ -159,7 +156,7 @@ export default function CreateCategory() {
             onCancel={() => setVisible(false)}
             footer={null}
             open={visible}
-            >
+          >
             <CategoryForm
               value={updatedName}
               setValue={setUpdatedName}
@@ -169,6 +166,6 @@ export default function CreateCategory() {
           </Modal>
         </div>
       </div>
-    </Layout>
+    </AdminLayout>
   );
 }

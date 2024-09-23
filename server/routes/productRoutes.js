@@ -5,6 +5,7 @@ import {
   cashOnDeliveryController,
   createProductController,
   deleteProductController,
+  getNewArrivalsController,
   getProductController,
   getSingleProductController,
   productCategoryController,
@@ -40,6 +41,9 @@ router.put(
 
 //get products
 router.get("/get-product", getProductController);
+
+// Route for getting new arrivals
+router.get('/new-arrivals', getNewArrivalsController);
 
 //single product
 router.get("/get-product/:slug", getSingleProductController);
