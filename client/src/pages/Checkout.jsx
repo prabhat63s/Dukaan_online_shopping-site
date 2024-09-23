@@ -35,7 +35,7 @@ export default function Checkout() {
   //get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("/api/v1/product/braintree/token");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/token");
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -51,7 +51,7 @@ export default function Checkout() {
       setLoading(true);
       if (paymentMethod === "online") {
         const { nonce } = await instance.requestPaymentMethod();
-        await axios.post("/api/v1/product/braintree/payment", {
+        await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/payment", {
           nonce,
           cart,
         });
@@ -61,7 +61,7 @@ export default function Checkout() {
         // For COD, simply proceed to navigate to order success page
         // No need to make a payment, as it's Cash on Delivery
         // Example:
-        await axios.post("/api/v1/product/cash-on-delivery", {
+        await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/product/cash-on-delivery", {
           cart,
           // You might need to send additional data like user details, address, etc.
         });
@@ -94,7 +94,7 @@ export default function Checkout() {
             {/* Shipping Info */}
             <div className="flex p-4 flex-col bg-white rounded-2xl border">
               <h2 className="text-xl font-semibold">Shipping Information</h2>
-              <div className="flex justify-between py-2">
+              <div className="flex flex-col lg:flex-row justify-between py-2">
                 <div className="flex flex-col">
                   <p className="text-sm"> Name : {auth?.user?.name}</p>
                   <p className="text-sm"> Email : {auth?.user?.email}</p>

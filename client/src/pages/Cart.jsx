@@ -56,7 +56,7 @@ export default function Cart() {
                       <li key={product.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl border">
                           <img
-                            src={`/api/v1/product/product-photo/${product._id}`}
+                            src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                             alt={product.name}
                             width="130px"
                             height={"130px"}
@@ -186,7 +186,7 @@ export default function Cart() {
                     <div className="py-4 flex w-full gap-8" key={p._id}>
                       <div className="flex justify-center w-[30%]">
                         <img
-                          src={`/api/v1/product/product-photo/${p._id}`}
+                          src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${p._id}`}
                           className="rounded-md"
                           alt={p.name}
                           width="130px"

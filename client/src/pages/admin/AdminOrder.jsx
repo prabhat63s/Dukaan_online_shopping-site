@@ -20,7 +20,7 @@ export default function AdminOrder() {
   // Fetch orders from API
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/v1/auth/all-orders");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/all-orders");
       setOrders(data);
       console.log({data});
     } catch (error) {
@@ -35,7 +35,7 @@ export default function AdminOrder() {
   // Handle status change
   const handleChange = async (orderId, value) => {
     try {
-      await axios.put(`/api/v1/auth/order-status/${orderId}`, {
+      await axios.put(`https://dukaan-online-shopping-site.onrender.com/api/v1/auth/order-status/${orderId}`, {
         status: value,
       });
       getOrders();
@@ -83,7 +83,7 @@ export default function AdminOrder() {
                       {order?.products?.map((product) => (
                         <div key={product._id} className="flex items-center space-x-3">
                           <img
-                            src={`/api/v1/product/product-photo/${product._id}`}
+                            src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                             alt={product.name}
                            className="w-14 h-14 rounded-md object-cover"
                           />

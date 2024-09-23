@@ -46,7 +46,7 @@ export default function ProductDetails() {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/product/get-product/${params.slug}`
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/get-product/${params.slug}`
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -58,7 +58,7 @@ export default function ProductDetails() {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `/api/v1/product/related-product/${pid}/${cid}`
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -78,7 +78,7 @@ export default function ProductDetails() {
           {/* Product Images */}
           <div className="bg-gray-50 w-full h-[500px] flex items-center justify-center rounded-lg">
             <img
-              src={`/api/v1/product/product-photo/${product._id}`}
+              src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
               alt={product.name}
               className="w-full h-full object-contain rounded-2xl"
             />
@@ -94,11 +94,11 @@ export default function ProductDetails() {
               })}
             </p>
             <div
-              className=" max-w-none"
+              className=""
               dangerouslySetInnerHTML={{ __html: product.description }}
             />
 
-            <div className=" rounded-md">
+            <div className="mt-5 rounded-md">
               <button
                 className="px-6 py-3 w-full lg:w-fit justify-center flex items-center gap-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition"
                 onClick={() => {
@@ -153,7 +153,7 @@ export default function ProductDetails() {
               <div key={p._id} onClick={() => navigate(`/product/${p.slug}`)}>
                 <div className="flex flex-col">
                   <img
-                    src={`/api/v1/product/product-photo/${p._id}`}
+                    src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${p._id}`}
                     alt={p.name}
                     className="w-full h-72 object-cover rounded-2xl bg-red-50"
                   />

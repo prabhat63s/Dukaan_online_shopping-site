@@ -17,7 +17,6 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  // const [securityQuestion, setSecurityQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [errors, setErrors] = useState({});
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -41,9 +40,6 @@ export default function SignUp() {
     if (!validatePhoneNumber(phone)) {
       validationErrors.phone = "Please enter a valid phone number.";
     }
-    // if (!securityQuestion) {
-    //   validationErrors.securityQuestion = "Please select a security question.";
-    // }
     if (!answer.trim()) {
       validationErrors.answer = "Please provide an answer.";
     }
@@ -55,13 +51,12 @@ export default function SignUp() {
 
     try {
       setErrors({});
-      const res = await axios.post("/api/v1/auth/sign-up", {
+      const res = await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/sign-up", {
         name,
         email,
         password,
         phone,
         address,
-        // securityQuestion,
         answer,
       });
 
@@ -217,8 +212,6 @@ export default function SignUp() {
               <div className="flex flex-col lg:flex-row gap-4 mt-2">
                 <select
                   name="securityQuestion"
-                  // value={securityQuestion}
-                  // onChange={(e) => setSecurityQuestion(e.target.value)}
                   className="border w-full rounded-md text-sm p-3"
                 >
                   <option value="" disabled>
@@ -229,9 +222,6 @@ export default function SignUp() {
                   </option>
                   <option value="What high school did you attend?">
                     What high school did you attend?
-                  </option>
-                  <option value="What is the name of your favorite tool?">
-                    What is the name of your favorite tool?
                   </option>
                 </select>
                 {errors.securityQuestion && (

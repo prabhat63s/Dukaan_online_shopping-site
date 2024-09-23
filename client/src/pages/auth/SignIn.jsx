@@ -39,7 +39,7 @@ export default function SignIn() {
 
       setError(""); // Clear the error state if no validation errors
 
-      const res = await axios.post("/api/v1/auth/sign-in", {
+      const res = await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/sign-in", {
         email,
         password,
       });

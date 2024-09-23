@@ -6,7 +6,7 @@ export default function Categories() {
 
   return (
     <div className="w-full border-b ">
-      <div className="lg:max-w-7xl h-[10vh] mx-auto px-4 gap-6 flex justify-center items-center overflow-x-auto scrollbar-hide">
+      <div className="lg:max-w-7xl h-[10vh] mx-auto px-4 gap-6 flex lg:justify-center items-center overflow-x-auto scrollbar-hide">
         {categories?.map((c) => (
           <Link
             key={c._id}

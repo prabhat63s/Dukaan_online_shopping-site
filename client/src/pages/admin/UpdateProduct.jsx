@@ -24,7 +24,7 @@ export default function UpdateProduct() {
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/product/get-product/${params.slug}`
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/get-product/${params.slug}`
       );
       setName(data.product.name);
       setId(data.product._id);
@@ -45,7 +45,7 @@ export default function UpdateProduct() {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("/api/v1/category/get-category");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/category/get-category");
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -71,7 +71,7 @@ export default function UpdateProduct() {
       photo && productData.append("photo", photo);
       productData.append("category", category);
       const { data } = axios.put(
-        `/api/v1/product/update-product/${id}`,
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/update-product/${id}`,
         productData
       );
       if (data?.success) {
@@ -89,7 +89,7 @@ export default function UpdateProduct() {
   //delete a product
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/v1/product/delete-product/${id}`);
+      await axios.delete(`https://dukaan-online-shopping-site.onrender.com/api/v1/product/delete-product/${id}`);
       toast.success("Product Deleted Succfully");
       navigate("/dashboard/products");
     } catch (error) {
@@ -175,7 +175,7 @@ export default function UpdateProduct() {
               </div>
               <div className="text-center flex items-center justify-center rounded-md shadow-sm border border-dashed w-full lg:w-[50%] bg-white">
                 <img
-                  src={`/api/v1/product/product-photo/${id}`}
+                  src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${id}`}
                   alt="product_photo"
                   className="h-40"
                 />

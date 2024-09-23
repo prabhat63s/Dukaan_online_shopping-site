@@ -10,7 +10,7 @@ export default function NewArrivals() {
   useEffect(() => {
     const fetchNewArrivals = async () => {
       try {
-        const response = await fetch("/api/v1/product/new-arrivals");
+        const response = await fetch("https://dukaan-online-shopping-site.onrender.com/api/v1/product/new-arrivals");
         const data = await response.json();
 
         console.log(data);
@@ -48,7 +48,7 @@ export default function NewArrivals() {
             <Link to={`/product/${product.slug}`} key={product._id}>
               <div className="flex flex-col gap-2">
                 <img
-                  src={`/api/v1/product/product-photo/${product._id}`}
+                  src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}
                   className="w-full h-72 object-cover rounded-2xl bg-red-50"
                 />

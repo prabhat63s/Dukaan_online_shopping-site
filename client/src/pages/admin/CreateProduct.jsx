@@ -21,7 +21,7 @@ export default function CreateProduct() {
   // Get all categories
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("/api/v1/category/get-category");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/category/get-category");
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -47,7 +47,7 @@ export default function CreateProduct() {
       productData.append("photo", photo);
       productData.append("category", category);
       const { data } = await axios.post(
-        "/api/v1/product/create-product",
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/product/create-product",
         productData
       );
       if (data?.success) {

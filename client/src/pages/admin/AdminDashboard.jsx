@@ -20,7 +20,7 @@ export default function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const { data } = await axios.get("/api/v1/auth/users", {
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/users", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
   // Fetch total products
   const fetchTotalProducts = async () => {
     try {
-      const { data } = await axios.get("/api/v1/product/product-count");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-count");
       if (data.success) {
         setTotalProducts(data.total);
       } else {
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   // Fetch total orders
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/v1/auth/all-orders");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/all-orders");
       setOrders(data);
       console.log({ data });
     } catch (error) {

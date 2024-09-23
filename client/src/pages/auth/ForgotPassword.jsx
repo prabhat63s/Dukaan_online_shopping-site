@@ -33,7 +33,7 @@ export default function ForgotPassword() {
         );
         return;
       }
-      const res = await axios.post("/api/v1/auth/forgot-password", {
+      const res = await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/forgot-password", {
         email,
         newPassword,
         answer,

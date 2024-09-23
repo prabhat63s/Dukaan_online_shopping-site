@@ -16,7 +16,7 @@ const CategoryProduct = () => {
   const getPrductsByCat = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/product/product-category/${params.slug}`
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-category/${params.slug}`
       );
       setProducts(data?.products);
       setCategory(data?.category);
@@ -48,7 +48,7 @@ const CategoryProduct = () => {
                 <Link key={product._id} to={`/product/${product.slug}`}>
                   <div className="flex flex-col">
                     <img
-                      src={`/api/v1/product/product-photo/${product._id}`}
+                      src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                       alt={product.name}
                       className="w-full h-72 object-contain rounded-2xl bg-gray-50"
                     />

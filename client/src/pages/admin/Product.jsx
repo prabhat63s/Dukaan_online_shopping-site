@@ -11,7 +11,7 @@ export default function Product() {
   //getall products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("/api/v1/product/get-product");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/get-product");
       setProducts(data.products);
       console.log({data});
     } catch (error) {
@@ -60,7 +60,7 @@ export default function Product() {
                     <tr className="divide-y hover:bg-white border">
                       <td className="px-4 py-2">
                         <img
-                          src={`/api/v1/product/product-photo/${p._id}`}
+                          src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${p._id}`}
                           alt={p._id}
                           className="w-14 h-14 rounded-md"
                         />

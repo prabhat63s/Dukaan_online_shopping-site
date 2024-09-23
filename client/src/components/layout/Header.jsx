@@ -222,14 +222,13 @@ const Header = () => {
                   {cart.length}
                 </span>
               </NavLink>
-
               {auth?.user ? (
                 <>
                   <NavLink
                     to={
                       auth.user.role === 1
-                        ? "/admin/dashboard"
-                        : "/user/profile"
+                        ? "/dashboard/admin"
+                        : "/dashboard/user"
                     }
                     onClick={toggleNav}
                     className={({ isActive }) =>

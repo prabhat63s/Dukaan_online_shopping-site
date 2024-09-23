@@ -20,15 +20,15 @@ root.render(
       </CartProvider>
     </SearchProvider>
     <Toaster
-        position="bottom-right"
-        theme="light"
-        toastOptions={{
-          style: {
-            backgroundColor: "#fee2e2",
-            color: "#000",
-          },
-          duration: 1000,
-        }}
-      />
+      position="bottom-right"
+      theme="light"
+      toastOptions={{
+        style: {
+          backgroundColor: "#fee2e2",
+          color: "#000",
+        },
+        duration: 1000,
+      }}
+    />
   </AuthProvider>
 );

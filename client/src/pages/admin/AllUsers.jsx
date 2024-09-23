@@ -24,7 +24,7 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const { data } = await axios.get("/api/v1/auth/users", {
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/users", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },

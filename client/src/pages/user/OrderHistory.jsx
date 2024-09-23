@@ -27,7 +27,7 @@ const OrderHistory = () => {
   // Fetch orders from the API
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/v1/auth/orders");
+      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/orders");
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -213,7 +213,7 @@ const OrderHistory = () => {
             {order.products.map((product, index) => (
               <div key={index} className="flex items-center space-x-4">
                 <img
-                  src={`/api/v1/product/product-photo/${product._id}`}
+                  src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}
                   className="w-16 h-16 object-cover rounded-md"
                 />

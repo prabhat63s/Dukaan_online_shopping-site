@@ -1,43 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
-import AccountInfo from "./AccountInfo"
-import OrderHistory from "./OrderHistory"
+import AccountInfo from "./AccountInfo";
+import OrderHistory from "./OrderHistory";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("profile");
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-  const apiUrl = "d/s";
-  
-  // Fetch user data on component mount
-  useEffect(() => {
-    if (auth?.token) {
-      // Replace with your actual API call to fetch user details
-      const fetchUserData = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}/api/v1/user/profile`, {
-            headers: {
-              Authorization: `Bearer ${auth.token}`,
-            },
-          });
-          // Assuming response contains user data
-          setAuth((prevAuth) => ({
-            ...prevAuth,
-            user: response.data.user,
-          }));
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          toast("Failed to fetch user data.");
-        }
-      };
 
-      fetchUserData();
+  // Fetch user data on component mount
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/user/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        user: response.data.user,
+      }));
+      toast.success("User data fetched successfully");
+    } catch (error) {
+      if (error.response?.status === 404) {
+        toast.error(
+          "User profile not found. Please check your account settings."
+        );
+      } else {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to fetch user data.");
+      }
     }
-  }, [auth?.token, setAuth]);
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -59,9 +60,6 @@ export default function Dashboard() {
     }
   };
 
-  console.log("Auth data on profile page:", auth); // Log auth data for debugging
-
-
   return (
     <Layout>
       <div className="w-full min-h-screen">
@@ -70,7 +68,7 @@ export default function Dashboard() {
             <h1 className="text-2xl font-semibold mb-2">
               {auth?.user?.role === 1 ? "Admin" : "User"} Account
             </h1>
-            <p className="text-sm flex items-center gap-1 text-neutral-800">
+            <p className="text-sm flow-root items-center gap-1 text-neutral-800">
               <span className="text-lg font-semibold text-black">
                 {auth?.user?.name} ·
               </span>{" "}
@@ -133,9 +131,7 @@ export default function Dashboard() {
             <div className="py-4">
               {activeTab === "profile" && (
                 <div className="my-5">
-                  <h2 className="text-2xl font-semibold">
-                    Update Information
-                  </h2>
+                  <h2 className="text-2xl font-semibold">Update Information</h2>
                   <AccountInfo />
                 </div>
               )}
