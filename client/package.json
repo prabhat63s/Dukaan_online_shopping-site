@@ -1,7 +1,7 @@
 {
   "name": "gocart",
   "version": "0.1.0",
-  "proxy": "http://localhost:5500",
+  "proxy": "https://dukaan-online-shopping-site.onrender.com",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.3.3",
