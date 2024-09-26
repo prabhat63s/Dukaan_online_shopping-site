@@ -35,7 +35,9 @@ export default function Checkout() {
   //get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/token");
+      const { data } = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/token"
+      );
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -51,20 +53,26 @@ export default function Checkout() {
       setLoading(true);
       if (paymentMethod === "online") {
         const { nonce } = await instance.requestPaymentMethod();
-        await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/payment", {
-          nonce,
-          cart,
-        });
+        await axios.post(
+          "https://dukaan-online-shopping-site.onrender.com/api/v1/product/braintree/payment",
+          {
+            nonce,
+            cart,
+          }
+        );
         localStorage.removeItem("cart");
         setCart([]);
       } else if (paymentMethod === "cod") {
         // For COD, simply proceed to navigate to order success page
         // No need to make a payment, as it's Cash on Delivery
         // Example:
-        await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/product/cash-on-delivery", {
-          cart,
-          // You might need to send additional data like user details, address, etc.
-        });
+        await axios.post(
+          "https://dukaan-online-shopping-site.onrender.com/api/v1/product/cash-on-delivery",
+          {
+            cart,
+            // You might need to send additional data like user details, address, etc.
+          }
+        );
         localStorage.removeItem("cart");
         setCart([]);
       }
@@ -100,18 +108,14 @@ export default function Checkout() {
                   <p className="text-sm"> Email : {auth?.user?.email}</p>
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-sm ">
-                    {" "}
-                    Address : {auth?.user?.address}
-                  </p>
-                  <p className="text-sm">
-                    {" "}
-                    Contact : {auth?.user?.phone}
-                  </p>
+                  <p className="text-sm "> Address : {auth?.user?.address}</p>
+                  <p className="text-sm"> Contact : {auth?.user?.phone}</p>
                 </div>
               </div>
               <Link
-                to="/dashboard/user/profile"
+                to={
+                  auth.user.role === 1 ? "/dashboard/admin" : "/dashboard/user"
+                }
                 className="bg-red-600 w-fit text-white px-6 py-2 rounded-lg hover:bg-red-500 transition-colors"
               >
                 Update address

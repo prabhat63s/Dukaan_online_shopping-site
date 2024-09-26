@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import AdminLayout from "./AdminLayout";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
+import { toast } from "sonner";
 
 const PAGE_SIZE = 7;
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [auth] = useAuth();
@@ -31,20 +30,16 @@ export default function AllUsers() {
       });
       setUsers(data.users);
       setTotalPages(Math.ceil(data.total / PAGE_SIZE)); 
-      setLoading(false);
+      toast.success("Users successfully fetched")
     } catch (error) {
       console.error("Error fetching users:", error);
-      setError("Failed to load users.");
-      setLoading(false);
+      toast.error("Users failed to load")
     }
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <AdminLayout>
@@ -56,7 +51,7 @@ export default function AllUsers() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-white">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Id
@@ -74,7 +69,7 @@ export default function AllUsers() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {currentUsers.map((user) => (
-                    <tr key={user._id}>
+                    <tr key={user._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         {user._id}
                       </td>

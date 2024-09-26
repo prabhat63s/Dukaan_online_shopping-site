@@ -13,7 +13,8 @@ export default function Product() {
     try {
       const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/get-product");
       setProducts(data.products);
-      console.log({data});
+      // console.log({data});
+      toast.success("Products successfully fetched")
     } catch (error) {
       console.log(error);
       toast.error("Someething Went Wrong");

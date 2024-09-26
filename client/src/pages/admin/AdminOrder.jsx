@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../context/auth";
 import { Select } from "antd";
 import AdminLayout from "./AdminLayout";
+import { toast } from "sonner";
 
 const { Option } = Select;
 
@@ -20,11 +21,15 @@ export default function AdminOrder() {
   // Fetch orders from API
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/all-orders");
+      const { data } = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/auth/all-orders"
+      );
       setOrders(data);
-      console.log({data});
+      // console.log({ data });
+      toast.success("Orders successfully fetched")
     } catch (error) {
       console.log(error);
+      toast.error("Orders failed to be fetched")
     }
   };
 
@@ -35,9 +40,12 @@ export default function AdminOrder() {
   // Handle status change
   const handleChange = async (orderId, value) => {
     try {
-      await axios.put(`https://dukaan-online-shopping-site.onrender.com/api/v1/auth/order-status/${orderId}`, {
-        status: value,
-      });
+      await axios.put(
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/auth/order-status/${orderId}`,
+        {
+          status: value,
+        }
+      );
       getOrders();
     } catch (error) {
       console.log(error);
@@ -81,11 +89,14 @@ export default function AdminOrder() {
                   <tr key={order._id} className="hover:bg-white border">
                     <td className="px-6 py-4">
                       {order?.products?.map((product) => (
-                        <div key={product._id} className="flex items-center space-x-3">
+                        <div
+                          key={product._id}
+                          className="flex items-center"
+                        >
                           <img
                             src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                             alt={product.name}
-                           className="w-14 h-14 rounded-md object-cover"
+                            className="w-14 h-14 rounded-md object-cover m-1"
                           />
                         </div>
                       ))}
@@ -93,12 +104,16 @@ export default function AdminOrder() {
                     <td className="px-6 py-4">
                       {order?.products.map((product) => (
                         <div key={product._id}>
-                          {product.name}
+                          <p className="">{product.name}</p>
                         </div>
                       ))}
                     </td>
                     <td className="px-6 py-4">
-                      ₹{order?.products.reduce((total, product) => total + product.price, 0)}
+                      ₹
+                      {order?.products.reduce(
+                        (total, product) => total + product.price,
+                        0
+                      )}
                     </td>
                     <td className="px-6 py-4">
                       <Select
@@ -115,8 +130,8 @@ export default function AdminOrder() {
                     </td>
                     <td className="px-6 py-4">{order?.buyer?.name}</td>
                     <td className="px-6 py-4">{order?.products?.length}</td>
-                    <td className="px-6 py-4">
-                      {order?.payment?.success ? "Success" : "Failed"}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {order?.payment?.success ? "Success" : "Cash on Delivery"}
                     </td>
                   </tr>
                 ))}

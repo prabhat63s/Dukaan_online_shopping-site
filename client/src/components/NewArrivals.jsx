@@ -13,7 +13,7 @@ export default function NewArrivals() {
         const response = await fetch("https://dukaan-online-shopping-site.onrender.com/api/v1/product/new-arrivals");
         const data = await response.json();
 
-        console.log(data);
+        // console.log(data);
         if (response.ok) {
           setNewArrivals(data.products);
         } else {

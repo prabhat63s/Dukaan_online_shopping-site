@@ -27,7 +27,9 @@ const OrderHistory = () => {
   // Fetch orders from the API
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/auth/orders");
+      const { data } = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/auth/orders"
+      );
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -130,10 +132,10 @@ const OrderHistory = () => {
          <div class="details">
            <div class="details-box">
              <p><strong>Bill From:</strong></p>
-             <p><strong>Name:</strong> agrocart</p>
-             <p><strong>Address:</strong> Gorakhpr, Utter Pradesh, 273004</p>
+             <p><strong>Name:</strong> Dukaan</p>
+             <p><strong>Address:</strong> Gorakhpur, Utter Pradesh, 273004</p>
              <p><strong>Contact:</strong> +91 6386144016</p>
-             <p><strong>Email:</strong> agrocart@agrocart.com</p>
+             <p><strong>Email:</strong> dukaan@dukaan.com</p>
            </div>
            <div class="details-box">
              <p><strong>Bill To:</strong></p>
@@ -175,15 +177,15 @@ const OrderHistory = () => {
          <p><strong>Total items:</strong> ${order.products.length}</p>
          <p><strong>Total Price:</strong> ₹${totalPrice}</p>
          <p>
-           <strong>Payment:</strong> ${
-             order.payment.success ? "Success" : "Failed"
+           <strong>Payment mode:</strong> ${
+             order.payment.success ? "Success" : "Cash on Delivery"
            }
          </p>
        </div>
        <footer class="footer">
          <p class="thank-you"><strong>Thank you for your order!</strong></p>
          <p>
-           Date: ${formattedDate} Time: ${formattedTime} © agrocart | Inc. All
+           Date: ${formattedDate} Time: ${formattedTime} © Dukaan | Inc. All
            rights reserved.
          </p>
        </footer>
@@ -197,11 +199,11 @@ const OrderHistory = () => {
     <div className="w-full flex flex-col space-y-4 pt-5">
       {orders?.map((order) => (
         <div key={order._id} className="border rounded-2xl p-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col lg:flex-row justify-between items-center">
             <h2 className="text-xl font-semibold">Order ID: {order._id}</h2>
             <button
               onClick={() => handleDownloadReceipt(order._id)}
-              className="text-red-600 hover:text-red-500"
+              className="text-red-600 hover:text-red-500 pb-5"
             >
               Download Receipt
             </button>
@@ -218,7 +220,7 @@ const OrderHistory = () => {
                   className="w-16 h-16 object-cover rounded-md"
                 />
                 <div>
-                  <h3 className="text-lg font-medium">{product.name}</h3>
+                  <h3 className="lg:text-lg font-medium">{product.name}</h3>
                   <p className="text-gray-600">₹{product.price}</p>
                 </div>
               </div>
@@ -231,6 +233,10 @@ const OrderHistory = () => {
             </p>
             <p className="text-sm text-gray-600">
               Total items: {order.products.length}
+            </p>
+            <p className="text-sm text-gray-600">
+              Payment mode: 
+              {order.payment.success ? "Success" : "Cash on Delivery"}
             </p>
           </div>
         </div>

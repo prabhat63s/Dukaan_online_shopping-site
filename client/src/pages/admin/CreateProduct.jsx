@@ -143,15 +143,15 @@ export default function CreateProduct() {
             </div>
 
             {/* Description Editor and Preview */}
-            <div className="flex flex-col lg:flex-row gap-6 mt-6 h-60">
+            <div className="flex flex-col lg:flex-row gap-6 mt-6 lg:min-h-60">
               {/* Rich Text Editor */}
-              <div className="w-full lg:w-1/2 ">
+              <div className="w-full lg:w-1/2">
                 <ReactQuill
                   theme="snow"
                   value={description}
                   onChange={setDescription}
                   placeholder="Enter product description"
-                  className="h-48 bg-white"
+                  className="h-full bg-white lg:pb-10"
                 />
               </div>
               {/* Description Preview */}
@@ -159,7 +159,7 @@ export default function CreateProduct() {
                 <h3 className="text-lg font-semibold mb-2">Preview</h3>
                 {description ? (
                   <div
-                    className=" max-w-none"
+                    className=""
                     dangerouslySetInnerHTML={{ __html: description }}
                   />
                 ) : (

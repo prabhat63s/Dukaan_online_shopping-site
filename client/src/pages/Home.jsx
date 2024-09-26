@@ -3,6 +3,7 @@ import Categories from "./Categories";
 import { FaStar } from "react-icons/fa";
 import NewArrivals from "../components/NewArrivals";
 import Banner from "../components/Banner";
+import Slider from "../components/Slider";
 
 const steps = [
   {
@@ -80,13 +81,8 @@ export default function Home() {
       {/* Category Section */}
       <Categories />
 
-      {/* banner */}
-      <Banner
-        title="Welcome to Dukaan!"
-        link="/all-products"
-        buttonText="Shop Now"
-        promoText="Get the best deals on top brands!"
-      />
+      {/* slider */}
+      <Slider />
 
       {/* New Arrivals */}
       <NewArrivals />
@@ -111,6 +107,14 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* banner */}
+      <Banner
+        title="Don't miss out on special offers"
+        link="/all-products"
+        buttonText="Shop Now"
+        promoText="Get the best deals on top brands!"
+      />
 
       {/* Testimonial */}
       <div className="lg:max-w-7xl mx-auto my-16 px-4">
