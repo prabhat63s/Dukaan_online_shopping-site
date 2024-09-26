@@ -10,7 +10,7 @@ export default function AuthLayout({ children }) {
           {/* Logo and Desktop Navigation */}
           <NavLink to="/" className="flex items-center gap-1">
             <img src={logo} alt="logo" className="h-8" />
-            <h1 className="text-2xl flex items-center font-semibold">
+            <h1 className="text-2xl flex items-center font-semibold mb-0">
               Dukaan
             </h1>
           </NavLink>
