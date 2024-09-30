@@ -100,7 +100,7 @@ export default function UpdateProduct() {
 
   return (
     <AdminLayout>
-      <div className="w-fullmt-4 lg:mt-0">
+      <div className="w-full mt-4 lg:mt-0">
         <h1 className="text-2xl font-semibold mb-6">Update Product</h1>
         <div className="flex flex-col space-y-2">
           {/* add product form */}

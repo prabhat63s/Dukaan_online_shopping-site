@@ -46,7 +46,7 @@ const CategoryProduct = () => {
               products.length > 0 &&
               products.map((product) => (
                 <Link key={product._id} to={`/product/${product.slug}`}>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col hover:opacity-80">
                     <img
                       src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                       alt={product.name}

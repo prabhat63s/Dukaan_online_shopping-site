@@ -27,7 +27,7 @@ export default function Search() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-[100%] gap-4 py-4">
           {values?.results.map((product) => (
             <Link key={product._id} to={`/product/${product.slug}`}>
-              <div className="flex flex-col">
+              <div className="flex flex-col hover:opacity-80">
                 <img
                   src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}

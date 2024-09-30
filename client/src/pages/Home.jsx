@@ -1,9 +1,10 @@
 import Layout from "../components/layout/Layout";
-import Categories from "./Categories";
 import { FaStar } from "react-icons/fa";
 import NewArrivals from "../components/NewArrivals";
 import Banner from "../components/Banner";
 import Slider from "../components/Slider";
+import Blog from "../components/Blog";
+import Categories from "../components/Categories";
 
 const steps = [
   {
@@ -142,6 +143,12 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* blog */}
+      <div className="lg:max-w-7xl mx-auto my-16 px-4">
+        <h2 className="text-2xl font-semibold mb-6">Fashion Blog.</h2>
+        <Blog />
       </div>
     </Layout>
   );

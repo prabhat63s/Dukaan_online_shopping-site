@@ -113,8 +113,7 @@ export default function AllProducts() {
         <div className="py-10 border-b">
           <h1 className="text-2xl font-semibold mb-2">Products For You</h1>
           <span className="">
-            <Link to="/">Home / </Link>
-            <Link to="/all-product">All Products</Link>
+            <Link to="/">Home</Link>
           </span>
         </div>
         <div className="w-full flex flex-col gap-8 lg:flex-row my-10">

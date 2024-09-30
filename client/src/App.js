@@ -25,9 +25,9 @@ import OrderSuccess from "./pages/OrderSucces";
 import AllUsers from "./pages/admin/AllUsers";
 import AllBlog from "./pages/admin/blog/AllBlog";
 import CreateBlog from "./pages/admin/blog/CreateBlog";
-import UpdateBlog from "./pages/admin/blog/UpdateBlog";
 import AllProducts from "./pages/AllProducts";
 import RedirectIfAuthenticated from "./components/routes/RedirectIfAuthenticated";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 function App() {
   return (
@@ -38,6 +38,7 @@ function App() {
         <Route path="/all-product" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />
+        <Route path="/blog-detail/:id" element={<BlogDetailPage />} />
         <Route path="/search" element={<Search />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/orderSuccess" element={<OrderSuccess />} />
@@ -56,7 +57,6 @@ function App() {
           <Route path="all-users" element={<AllUsers />} />
           <Route path="all-blog" element={<AllBlog />} />
           <Route path="create-blog" element={<CreateBlog />} />
-          <Route path="update-blog" element={<UpdateBlog />} />
         </Route>
 
         <Route

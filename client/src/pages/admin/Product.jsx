@@ -30,7 +30,6 @@ export default function Product() {
     <AdminLayout>
       <div className="">
         <h1 className="text-2xl font-semibold mb-6">Admin Product</h1>
-        <div className="w-full ">
           <div className="w-full flex flex-col space-y-2">
             <div className=" overflow-x-auto ">
               <table className="w-full text-sm text-left rtl:text-right">
@@ -90,7 +89,6 @@ export default function Product() {
               </table>
             </div>
           </div>
-        </div>
       </div>
     </AdminLayout>
   );

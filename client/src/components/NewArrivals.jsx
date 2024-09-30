@@ -46,7 +46,7 @@ export default function NewArrivals() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {newArrivals.map((product) => (
             <Link to={`/product/${product.slug}`} key={product._id}>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 hover:opacity-80">
                 <img
                   src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}
