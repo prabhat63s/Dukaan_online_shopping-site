@@ -53,12 +53,14 @@ export default function ProductsByCategory({ categoryId, categoryName }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <Link to={`/product/${product.slug}`} key={product._id}>
-              <div className="flex flex-col gap-2 hover:opacity-80">
-                <img
-                  src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
-                  alt={product.name}
-                  className="w-full h-72 object-cover rounded-2xl bg-red-50"
-                />
+              <div className="flex flex-col gap-2">
+                <div className="w-full border h-72 rounded-2xl">
+                  <img
+                    src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
+                    alt={product.name}
+                    className="w-full h-full object-cover rounded-2xl hover:opacity-80"
+                  />
+                </div>
                 <div className="py-2 flex flex-col">
                   <p className="truncate mb-1">{product.name}</p>
                   <p className="text-xl font-semibold mb-0">₹{product.price}</p>
