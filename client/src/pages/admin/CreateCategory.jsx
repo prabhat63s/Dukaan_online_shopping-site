@@ -39,6 +39,7 @@ export default function CreateCategory() {
       if (data?.success) {
         setCategories(data?.category);
       }
+      // console.log({data});
     } catch (error) {
       console.log(error);
       toast.error("Something wwent wrong in getting catgeory");

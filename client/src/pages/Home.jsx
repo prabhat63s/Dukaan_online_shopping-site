@@ -86,7 +86,34 @@ export default function Home() {
       <Slider />
 
       {/* New Arrivals */}
-      <NewArrivals />
+      <NewArrivals
+        categoryId="66f16811fb03db6753c00622"
+        categoryName={"Smart Phones"}
+      />
+      <NewArrivals
+        categoryId="66f16808fb03db6753c00618"
+        categoryName={"Women's Wear"}
+      />
+      <NewArrivals
+        categoryId="66f16802fb03db6753c00613"
+        categoryName={"Men's Wear"}
+      />
+      <NewArrivals
+        categoryId="66f16821fb03db6753c00627"
+        categoryName={"Electronics"}
+      />
+      <NewArrivals
+        categoryId="66f1680cfb03db6753c0061d"
+        categoryName={"Kid's Wear"}
+      />
+      <NewArrivals
+        categoryId="66f16830fb03db6753c00631"
+        categoryName={"Home Appliances"}
+      />
+      <NewArrivals
+        categoryId="66f16827fb03db6753c0062c"
+        categoryName={"Toys"}
+      />
 
       {/* How It Works */}
       <div className="my-16 border-t border-b">
@@ -116,7 +143,6 @@ export default function Home() {
         buttonText="Shop Now"
         promoText="Get the best deals on top brands!"
       />
-
       {/* Testimonial */}
       <div className="lg:max-w-7xl mx-auto my-16 px-4">
         <h2 className="text-2xl font-semibold mb-6">What Our Customers Say.</h2>

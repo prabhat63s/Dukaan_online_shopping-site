@@ -8,6 +8,7 @@ import {
   getNewArrivalsController,
   getProductController,
   getSingleProductController,
+  productByCategoryIdController,
   productCategoryController,
   productCountController,
   productFiltersController,
@@ -68,6 +69,9 @@ router.get("/search/:keyword", searchProductController);
 
 //similar product
 router.get("/related-product/:pid/:cid", realtedProductController);
+
+//similar product
+router.get("/category/:id", productByCategoryIdController);
 
 //category wise product
 router.get("/product-category/:slug", productCategoryController);

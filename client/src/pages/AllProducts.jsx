@@ -19,7 +19,9 @@ export default function AllProducts() {
   //get all cat
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/category/get-category");
+      const { data } = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/category/get-category"
+      );
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -37,8 +39,11 @@ export default function AllProducts() {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-list/${page}`
+      );
       setLoading(false);
+      // console.log({data});
       setProducts(data.products);
     } catch (error) {
       setLoading(false);
@@ -49,7 +54,9 @@ export default function AllProducts() {
   //getTOtal COunt
   const getTotal = async () => {
     try {
-      const { data } = await axios.get("https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-count");
+      const { data } = await axios.get(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-count"
+      );
       setTotal(data?.total);
     } catch (error) {
       console.log(error);
@@ -65,7 +72,9 @@ export default function AllProducts() {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-list/${page}`);
+      const { data } = await axios.get(
+        `https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-list/${page}`
+      );
       setLoading(false);
       setProducts([...products, ...data?.products]);
     } catch (error) {
@@ -96,10 +105,13 @@ export default function AllProducts() {
   //get filterd product
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-filters", {
-        checked,
-        radio,
-      });
+      const { data } = await axios.post(
+        "https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-filters",
+        {
+          checked,
+          radio,
+        }
+      );
       setProducts(data?.products);
     } catch (error) {
       console.log(error);
@@ -179,9 +191,7 @@ export default function AllProducts() {
                         className="w-full h-72 object-contain rounded-2xl bg-gray-50"
                       />
                       <div className="py-2 flex flex-col">
-                        <p className="truncate mb-1">
-                          {product.name}
-                        </p>
+                        <p className="truncate mb-1">{product.name}</p>
                         <p className="text-xl font-semibold mb-0">
                           ₹{product.price}
                         </p>

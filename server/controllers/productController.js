@@ -352,6 +352,25 @@ export const productCategoryController = async (req, res) => {
   }
 };
 
+export const productByCategoryIdController = async (req, res) => {
+  try {
+    const categoryId = req.params.id; 
+    const products = await productModel.find({ category: categoryId }).populate("category");
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      error,
+      message: "Error While Getting products",
+    });
+  }
+};
+
+
 //payment gateway api
 //token
 export const braintreeTokenController = async (req, res) => {
