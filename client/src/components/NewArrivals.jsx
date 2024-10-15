@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
 import { toast } from "sonner";
+import ProductCardSkeleton from "./ProductCardSkeleton"; 
 
 export default function ProductsByCategory({ categoryId, categoryName }) {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,6 @@ export default function ProductsByCategory({ categoryId, categoryName }) {
           `https://dukaan-online-shopping-site.onrender.com/api/v1/product/category/${categoryId}`
         );
         const data = await response.json();
-        // console.log(data);
 
         if (response.ok) {
           setProducts(data.products);
@@ -43,18 +42,19 @@ export default function ProductsByCategory({ categoryId, categoryName }) {
       </div>
 
       {loading ? (
-        <div>
-          <Spinner />
-          <p>Loading products...</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
         </div>
       ) : products.length === 0 ? (
-        <p>No products available in {categoryName}.</p>
+        <p>{categoryName} will be available soon. Stay tuned!</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <Link to={`/product/${product.slug}`} key={product._id}>
               <div className="flex flex-col gap-2">
-                <div className="w-full border h-72 rounded-2xl">
+                <div className="w-full border h-56 lg:h-72 rounded-2xl">
                   <img
                     src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
                     alt={product.name}
@@ -62,8 +62,10 @@ export default function ProductsByCategory({ categoryId, categoryName }) {
                   />
                 </div>
                 <div className="py-2 flex flex-col">
-                  <p className="truncate mb-1">{product.name}</p>
-                  <p className="text-xl font-semibold mb-0">₹{product.price}</p>
+                  <p className="truncate text-sm mb-1">{product.name}</p>
+                  <p className="text-xl font-semibold mb-0">
+                    ₹{product.price}
+                  </p>
                 </div>
               </div>
             </Link>

@@ -10,7 +10,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 const features = [
   {
     title: "Free Shipping",
-    description: "On orders over $50.00",
+    description: "On orders over ₹500.00",
     icon: "🚚",
   },
   {
@@ -25,7 +25,7 @@ const features = [
   },
   {
     title: "Refunds Policy",
-    description: "60 days return for any reason.",
+    description: "7 days return for any reason.",
     icon: "💵",
   },
 ];
@@ -71,12 +71,13 @@ export default function ProductDetails() {
       <div className="lg:max-w-7xl mx-auto px-4 py-10">
         {/* Breadcrums */}
         <h3 className="text-sm text-gray-600 mb-5">
-          {product?.category?.name} / {product.name}
+          <Link to="/">Home</Link> / <Link to="/all-product">All products</Link>{" "}
+          / {product?.category?.name} / {product.name}
         </h3>
         {/* Product detail */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Images */}
-          <div className="bg-gray-50 w-full h-[500px] flex items-center justify-center rounded-lg">
+          <div className="bg-gray-50 w-full max-h-[500px] lg:h-[500px] border flex items-center justify-center rounded-2xl">
             <img
               src={`https://dukaan-online-shopping-site.onrender.com/api/v1/product/product-photo/${product._id}`}
               alt={product.name}
@@ -86,8 +87,8 @@ export default function ProductDetails() {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
-            <p className="text-lg font-medium text-gray-500 mb-4">
+            <h1 className="mb-2">{product.name}</h1>
+            <p className="text-3xl font-semibold text-red-600 mb-4">
               {product?.price?.toLocaleString("en-US", {
                 style: "currency",
                 currency: "INR",

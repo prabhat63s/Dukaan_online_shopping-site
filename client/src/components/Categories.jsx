@@ -5,8 +5,8 @@ export default function Categories() {
   const categories = useCatgory();
 
   return (
-    <div className="w-full border-b ">
-      <div className="lg:max-w-7xl h-[10vh] mx-auto px-4 gap-6 flex lg:justify-center items-center overflow-x-auto scrollbar-hide">
+    <div className="w-full">
+      <div className="lg:max-w-7xl mx-auto px-4 pt-4 pb-1.5 lg:p-6 gap-8 flex lg:justify-center items-center overflow-x-auto scrollbar-hide">
         {categories?.map((c) => (
           <Link
             key={c._id}
